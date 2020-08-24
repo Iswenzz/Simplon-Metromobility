@@ -1,3 +1,10 @@
 import * as $ from "jquery";
+import "slick-carousel";
+import "./assets/scss/index.scss";
 
-$("<h1>Hello World</h1>").appendTo(document.body);
+$("#index-carousel").slick({
+	dots: true,
+	autoplay: true,
+	arrows: true,
+	autoplaySpeed: 6000
+});

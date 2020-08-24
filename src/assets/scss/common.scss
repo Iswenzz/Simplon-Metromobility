@@ -1,3 +1,11 @@
+// normalize
+@import "../../../node_modules/normalize.css/normalize.css";
+
+ul {
+	padding: 0;
+	margin: 0;
+}
+
 // material design & montserrat fonts
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap");
@@ -82,4 +90,4 @@ body {
 }
 
 // AnimateCSS
-@import "../../../node_modules/materialize-css/sass/materialize";
+@import "../../../node_modules/animate.css/animate.min.css";
