@@ -52,6 +52,10 @@ module.exports = {
 				test: /\.(png|jpe?g|gif|svg|webp)$/i,
 				loader: "file-loader"
 			},
+			{	// font loader
+				test: /\.(woff|woff2|eot|ttf|otf)$/,
+				use: "file-loader"
+			},
 			{	// html loader
 				test: /\.html$/i,
 				loader: "html-loader",
