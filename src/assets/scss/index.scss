@@ -1,4 +1,5 @@
 @import "./common";
+@import "./navbar";
 
 $slick-font-path: "~slick-carousel/slick/fonts/";
 $slick-loader-path: "~slick-carousel/slick/";
@@ -15,6 +16,34 @@ $slick-loader-path: "~slick-carousel/slick/";
 				width: 100%;
 				height: 100%;
 				object-fit: cover;
+			}
+		}
+	}
+}
+
+.slick-dots {
+	bottom: 50px;
+
+	li {
+		button {
+			&::before {
+				color: transparent;
+				opacity: 0.8 !important;
+				background-color: transparent;
+				border: 4px solid lightblue;
+				border-radius: 50%;
+				display: inline-block;
+				width: 20px;
+				height: 20px;
+			}
+		}
+	}
+
+	.slick-active {
+		button {
+			&::before {
+				color: transparent !important;
+				background-color: royalblue;
 			}
 		}
 	}
