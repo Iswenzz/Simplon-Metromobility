@@ -1,3 +1,12 @@
+// colors
+$primary: royalblue;
+$secondary: gray;
+$danger: indigo;
+$warning: orangered;
+$info: crimson;
+
+$colors: ($primary, $secondary, $danger, $warning, $info) !default;
+
 // normalize
 @import "../../../node_modules/normalize.css/normalize.css";
 
@@ -39,6 +48,95 @@ $sizes: (0, 25, 50, 75, 100) !default;
 	}
 }
 
+.mx-auto {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.my-auto {
+	margin-top: auto;
+	margin-bottom: auto;
+}
+
+// containers
+.container {
+	padding-right: 1rem;
+	padding-left: 1rem;
+	margin-right: auto;
+	margin-left: auto;
+	width: 100%;
+
+	@media (min-width: 768px) {
+		max-width: 750px;
+	}
+	@media (min-width: 992px) {
+		max-width: 970px;
+	}
+	@media (min-width: 1200px) {
+		max-width: 1170px;
+	}
+}
+
+// display & flexbox
+.d-flex {
+	display: flex;
+}
+
+.d-block {
+	display: block;
+}
+
+.d-none {
+	display: none;
+}
+
+.d-inline-block {
+	display: inline-block;
+}
+
+.flex-row {
+	flex-direction: row;
+}
+
+.flex-column {
+	flex-direction: column;
+}
+
+// justify
+$layout: ("center", "flex-start", "flex-end", "space-between", "space-around", "space-evenly", "start", "end", "normal", "stretch", "left", "right") !default;
+@each $pos in $layout {
+	justify-items-#{$pos} {
+		justify-items: $pos;
+	}
+	justify-content-#{$pos} {
+		justify-content: $pos;
+	}
+	justify-self-#{$pos} {
+		justify-self: $pos;
+	}
+	align-content-#{$pos} {
+		align-content: $pos;
+	}
+	align-items-#{$pos} {
+		align-items: $pos;
+	}
+	align-self-#{$pos} {
+		align-self: $pos;
+	}
+}
+
+// buttons
+@mixin btn($color) {
+	color: gainsboro;
+	background-color: $color;
+}
+
+@each $c in $colors {
+	btn-#{$c} {
+		@include btn($c);
+	}
+}
+
 // default font & colors
 $scrollbar-bg: #292929;
 $thumb-bg: #383838;
@@ -48,8 +146,8 @@ html, body {
 }
 
 body {
-	background-color: rgb(30, 30, 30);
-	color: gainsboro;
+	background-color: whitesmoke;
+	color: black;
 	font-family: Arial, sans-serif;
 	scrollbar-width: thin;
 	scrollbar-color: $thumb-bg $scrollbar-bg;
