@@ -1,0 +1,23 @@
+.footer {
+	#{&}-social {
+		a {
+			transition: all 0.3s ease-in-out;
+	
+			svg {
+				transform: scale(1.4);
+			}
+	
+			&:active, &:hover, &:focus {
+				svg {
+					filter: saturate(0%) brightness(300%);
+				}
+			}
+		}
+	}
+
+	#{&}-nav {
+		ul {
+			list-style: none;
+		}
+	}
+}

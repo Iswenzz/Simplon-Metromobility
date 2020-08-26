@@ -6,6 +6,7 @@ $info: crimson !default;
 $verbose: greenyellow !default;
 $light: whitesmoke !default;
 $dark: dimgray !default;
+$transparent: transparent !default;
 
 $colors: (
 	primary: $primary,
@@ -15,7 +16,8 @@ $colors: (
 	info: $info,
 	verbose: $verbose,
 	light: $light,
-	dark: $dark
+	dark: $dark,
+	transparent: $transparent
 ) !default;
 
 // gradient
@@ -249,6 +251,7 @@ $layout: ("center", "flex-start", "flex-end", "space-between", "space-around", "
 	box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .15);
 
 	&:active, &:hover, &:focus {
+		outline: none;
 		background-color: whitesmoke;
 		border-color: $color;
 		color: $color;

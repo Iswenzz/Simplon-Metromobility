@@ -1,5 +1,5 @@
 .navbar {
-	z-index: 9999;
+	z-index: 1000;
 	position: absolute;
 	background-color: transparent;
 	top: 0;
@@ -16,8 +16,62 @@
 	}
 
 	#{&}-content {
+		display: block;
+
 		ul {
 			list-style: none;
 		}
+
+		@include media(tablet_mobile, portrait) {
+			display: none;
+
+			ul {
+				flex-direction: column;
+
+				li {
+					a {
+						background: transparent;
+						border: 0;
+						border-bottom: solid 2px whitesmoke;
+						border-radius: 0;
+						width: 70vw;
+						padding: 1em;
+						margin: 1em;
+					}
+				}
+			}
+		}
+	}
+
+	#{&}-toggler {
+		display: none !important;
+		width: 3em;
+		height: 3em;
+
+		@include media(tablet_mobile, portrait) {
+			display: block !important;
+		}
+	}
+
+	#{&}-toggler-close {
+		position: fixed;
+		top: 0;
+		right: 0;
+		display: none;
+		width: 3em;
+		height: 3em;
+		margin: 1em;
+	}
+
+	.active {
+		z-index: 1200;
+		position: fixed;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		width: 100vw;
+		height: 100vh;
+		background-color: rgba($color: rgb(0, 26, 56), $alpha: 0.5);
 	}
 }
