@@ -3,6 +3,7 @@ $secondary: gray !default;
 $danger: indigo !default;
 $warning: orangered !default;
 $info: crimson !default;
+$verbose: greenyellow !default;
 $light: whitesmoke !default;
 $dark: dimgray !default;
 
@@ -12,6 +13,7 @@ $colors: (
 	danger: $danger,
 	warning: $warning,
 	info: $info,
+	verbose: $verbose,
 	light: $light,
 	dark: $dark
 ) !default;
@@ -37,9 +39,9 @@ ul {
 	margin: 0;
 }
 
-// material design & montserrat fonts
+// material design & montserrat & metrophobic fonts
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Metrophobic&display=swap");
 
 // responsive queries
 $queries: (
@@ -59,14 +61,16 @@ $queries: (
 }
 
 // sizes
-$sizes: (0, 25, 50, 75, 100) !default;
+$sizes: (0, 25, 33.33, 50, 66.66, 75, 100) !default;
 @each $size in $sizes {
-	.w-#{$size} {
+	.w-#{round($size)} {
 		width: percentage($size / 100);
 	}
-	
-	.h-#{$size} {
+	.h-#{round($size)} {
 		height: percentage($size / 100);
+	}
+	.rounded-#{round($size)} {
+		border-radius: 1em * ($size / 10) !important;
 	}
 }
 
@@ -158,6 +162,12 @@ $spacers: (
 
 .d-inline-block {
 	display: inline-block;
+	flex-wrap: wrap;
+	flex-direction: row;
+}
+
+.d-inline-flex {
+	display: inline-flex;
 }
 
 .flex-row {
@@ -166,6 +176,22 @@ $spacers: (
 
 .flex-column {
 	flex-direction: column;
+}
+
+.flex-nowrap {
+	flex-wrap: nowrap !important;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.text-left {
+	text-align: left;
+}
+
+.text-right {
+	text-align: right;
 }
 
 // shadows
@@ -210,6 +236,7 @@ $layout: ("center", "flex-start", "flex-end", "space-between", "space-around", "
 
 // buttons
 @mixin btn($color) {
+	cursor: pointer;
 	display: block;
 	color: whitesmoke;
 	background-color: $color;
@@ -228,10 +255,29 @@ $layout: ("center", "flex-start", "flex-end", "space-between", "space-around", "
 	}
 }
 
+@mixin btn-link($color) {
+	@include btn(transparent);
+	color: dimgray;
+	box-shadow: none;
+
+	&:active, &:hover, &:focus {
+		background-color: transparent;
+		border-color: transparent;
+		color: $color;
+		box-shadow: none;
+	}
+}
+
 @mixin btn-outline($color) {
 	@include btn($color);
 	background-color: transparent;
 	color: $color;
+
+	&:active, &:hover, &:focus {
+		background-color: $color;
+		border-color: $color;
+		color: whitesmoke;
+	}
 }
 
 @mixin btn-gradient($isLinear, $degree, $bordercolor, $colors...) {
@@ -247,15 +293,24 @@ $layout: ("center", "flex-start", "flex-end", "space-between", "space-around", "
 }
 
 .rounded-0 {
-	border-radius: none;
+	border-radius: 0 !important;
 }
 
 .rounded-circle {
-	border-radius: 3em;
+	border-radius: 100% !important;
 }
 
 // colors
 @each $k, $v in $colors {
+	.color-#{$k} {
+		color: $v;
+	}
+	.fill-#{$k} {
+		fill: $v;
+	}
+	.stroke-#{$k} {
+		stroke: $v;
+	}
 	.bg-#{$k} {
 		background-color: $v;
 	}
@@ -267,6 +322,9 @@ $layout: ("center", "flex-start", "flex-end", "space-between", "space-around", "
 	}
 	.btn-gradient-#{$k} {
 		@include btn-gradient(true, 90deg, $v, $v 0%, darken($v, 20%));
+	}
+	.btn-link-#{$k} {
+		@include btn-link($v);
 	}
 }
 
@@ -281,14 +339,18 @@ html, body {
 body {
 	background-color: whitesmoke;
 	color: black;
-	font-family: Arial, sans-serif;
+	font-family: "Metrophobic", sans-serif;
 	scrollbar-width: thin;
 	scrollbar-color: $thumb-bg $scrollbar-bg;
 
-	h1, h2 {
+	h1, h2, h3, h4 {
 		font-family: "Montserrat", sans-serif;
-		font-size: 3em;
 		font-weight: 600;
+		font-size: 1.5em;
+	}
+
+	h1, h2 {
+		font-size: 2em;
 	}
 }
 
