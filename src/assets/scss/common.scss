@@ -58,11 +58,11 @@ $queries: (
 $sizes: (0, 25, 50, 75, 100) !default;
 @each $size in $sizes {
 	.w-#{$size} {
-		width: percentage($size);
+		width: percentage($size / 100);
 	}
 	
 	.h-#{$size} {
-		height: percentage($size);
+		height: percentage($size / 100);
 	}
 }
 
@@ -166,22 +166,22 @@ $spacers: (
 $layout: ("center", "flex-start", "flex-end", "space-between", "space-around", "space-evenly", "start", "end", "normal", "stretch", "left", "right") !default;
 @each $pos in $layout {
 	.justify-items-#{$pos} {
-		justify-items: $pos;
+		justify-items: #{$pos};
 	}
 	.justify-content-#{$pos} {
-		justify-content: $pos;
+		justify-content: #{$pos};
 	}
 	.justify-self-#{$pos} {
-		justify-self: $pos;
+		justify-self: #{$pos};
 	}
 	.align-content-#{$pos} {
-		align-content: $pos;
+		align-content: #{$pos};
 	}
 	.align-items-#{$pos} {
-		align-items: $pos;
+		align-items: #{$pos};
 	}
 	.align-self-#{$pos} {
-		align-self: $pos;
+		align-self: #{$pos};
 	}
 }
 
