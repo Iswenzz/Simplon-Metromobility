@@ -1,14 +1,32 @@
-// colors
-$primary: royalblue;
-$secondary: gray;
-$danger: indigo;
-$warning: orangered;
-$info: crimson;
+$primary: royalblue !default;
+$secondary: gray !default;
+$danger: indigo !default;
+$warning: orangered !default;
+$info: crimson !default;
 
-$colors: ($primary, $secondary, $danger, $warning, $info) !default;
+$colors: (
+	primary: $primary,
+	secondary: $secondary,
+	danger: $danger,
+	warning: $warning,
+	info: $info
+) !default;
+
+// gradient
+@mixin gradient($isLinear, $degree, $colors...) {
+	@if $isLinear {
+		background: linear-gradient($degree, $colors);
+	} @else {
+		background: radial-gradient($degree, $colors);
+	}
+}
 
 // normalize
 @import "../../../node_modules/normalize.css/normalize.css";
+
+* {
+	box-sizing: border-box;
+}
 
 ul {
 	padding: 0;
@@ -26,7 +44,7 @@ $queries: (
 	portrait: "orientation: portrait",
 	retina: "min-resolution: 2dppx",
 	big: "min-device-width: 1824px"
-);
+) !default;
 
 @mixin media($keys...) {
 	@each $key in $keys {
@@ -77,6 +95,48 @@ $sizes: (0, 25, 50, 75, 100) !default;
 	}
 }
 
+// spacing
+$spacer: 1rem !default;
+$spacers: (
+	0: 0,
+	1: $spacer * .25,
+	2: $spacer * .5,
+	3: $spacer * 1,
+	4: $spacer * 1.5,
+	5: $spacer * 3,
+	auto: auto
+) !default;
+
+@each $k, $v in $spacers {
+	.mx-#{$k} {
+		margin-left: $v;
+		margin-right: $v;
+	}
+	.my-#{$k} {
+		margin-top: $v;
+		margin-bottom: $v;
+	}
+	.mt-#{$k} { margin-top: $v; }
+	.ml-#{$k} { margin-left: $v; }
+	.mb-#{$k} { margin-bottom: $v; }
+	.mr-#{$k} { margin-right: $v; }
+	.m-#{$k} { margin: $v; }
+
+	.px-#{$k} {
+		padding-left: $v;
+		padding-right: $v;
+	}
+	.py-#{$k} {
+		padding-top: $v;
+		padding-bottom: $v;
+	}
+	.pt-#{$k} { padding-top: $v; }
+	.pl-#{$k} { padding-left: $v; }
+	.pb-#{$k} { padding-bottom: $v; }
+	.pr-#{$k} { padding-right: $v; }
+	.p-#{$k} { padding: $v; }
+}
+
 // display & flexbox
 .d-flex {
 	display: flex;
@@ -105,41 +165,82 @@ $sizes: (0, 25, 50, 75, 100) !default;
 // justify
 $layout: ("center", "flex-start", "flex-end", "space-between", "space-around", "space-evenly", "start", "end", "normal", "stretch", "left", "right") !default;
 @each $pos in $layout {
-	justify-items-#{$pos} {
+	.justify-items-#{$pos} {
 		justify-items: $pos;
 	}
-	justify-content-#{$pos} {
+	.justify-content-#{$pos} {
 		justify-content: $pos;
 	}
-	justify-self-#{$pos} {
+	.justify-self-#{$pos} {
 		justify-self: $pos;
 	}
-	align-content-#{$pos} {
+	.align-content-#{$pos} {
 		align-content: $pos;
 	}
-	align-items-#{$pos} {
+	.align-items-#{$pos} {
 		align-items: $pos;
 	}
-	align-self-#{$pos} {
+	.align-self-#{$pos} {
 		align-self: $pos;
 	}
 }
 
 // buttons
 @mixin btn($color) {
+	display: block;
 	color: gainsboro;
 	background-color: $color;
-}
+	border: 3px solid $color;
+	border-radius: 3em;
+	outline: none;
+	text-decoration: none;
+	text-align: center;
 
-@each $c in $colors {
-	btn-#{$c} {
-		@include btn($c);
+	&:active, &:hover, &:focus {
+		background-color: whitesmoke !important;
+		border-color: $color !important;
+		color: $color !important;
 	}
 }
 
-// default font & colors
-$scrollbar-bg: #292929;
-$thumb-bg: #383838;
+@mixin btn-outline($color) {
+	@include btn($color);
+	background-color: transparent;
+	color: $color;
+}
+
+@mixin btn-gradient($isLinear, $degree, $colors...) {
+	@include btn(whitesmoke);
+	@include gradient($isLinear, $degree, $colors...);
+}
+
+.rounded-0 {
+	border-radius: none;
+}
+
+.rounded-circle {
+	border-radius: 3em;
+}
+
+// colors
+@each $k, $v in $colors {
+	.bg-#{$k} {
+		background-color: $v;
+	}
+	.btn-#{$k} {
+		@include btn($v);
+	}
+	.btn-outline-#{$k} {
+		@include btn-outline($v);
+	}
+	.btn-gradient-#{$k} {
+		@include btn-gradient(true, 90deg, $v 0%, darken($v, 40%) 100%);
+	}
+}
+
+// default font & text/bg colors
+$scrollbar-bg: #292929 !default;
+$thumb-bg: #383838 !default;
 
 html, body {
 	overflow-x: hidden;
@@ -180,11 +281,6 @@ body {
 	background-color: $thumb-bg;
 	border: 3px solid $scrollbar-bg;
 	border-radius: 10px;
-}
-
-.gradient {
-	background: linear-gradient(90deg, rgba(108, 0, 112, 1) 0%, 
-	rgba(12, 0, 141, 1) 50%, rgba(0, 152, 184, 1) 100%);
 }
 
 // AnimateCSS
