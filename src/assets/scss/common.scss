@@ -140,6 +140,8 @@ $spacers: (
 // display & flexbox
 .d-flex {
 	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
 }
 
 .d-block {
@@ -160,6 +162,23 @@ $spacers: (
 
 .flex-column {
 	flex-direction: column;
+}
+
+// shadows
+.shadow-none {
+	box-shadow: none;
+}
+
+.shadow-sm {
+	box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .15);
+}
+
+.shadow {
+	box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
+}
+
+.shadow-lg {
+	box-shadow: 0 1rem 3rem rgba(0, 0, 0, .15);
 }
 
 // justify
@@ -195,11 +214,13 @@ $layout: ("center", "flex-start", "flex-end", "space-between", "space-around", "
 	outline: none;
 	text-decoration: none;
 	text-align: center;
+	transition: all 0.15s ease-in-out;
+	box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .15);
 
 	&:active, &:hover, &:focus {
-		background-color: whitesmoke !important;
-		border-color: $color !important;
-		color: $color !important;
+		background-color: whitesmoke;
+		border-color: $color;
+		color: $color;
 	}
 }
 
