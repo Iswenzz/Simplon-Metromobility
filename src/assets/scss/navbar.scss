@@ -1,4 +1,13 @@
 .navbar {
+	z-index: 9999;
+	position: absolute;
+	background-color: transparent;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	max-height: 6em;
+
 	#{&}-brand {
 		img {
 			width: 160px;

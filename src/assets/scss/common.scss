@@ -3,13 +3,17 @@ $secondary: gray !default;
 $danger: indigo !default;
 $warning: orangered !default;
 $info: crimson !default;
+$light: whitesmoke !default;
+$dark: dimgray !default;
 
 $colors: (
 	primary: $primary,
 	secondary: $secondary,
 	danger: $danger,
 	warning: $warning,
-	info: $info
+	info: $info,
+	light: $light,
+	dark: $dark
 ) !default;
 
 // gradient

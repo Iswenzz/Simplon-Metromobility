@@ -48,3 +48,25 @@ $slick-loader-path: "~slick-carousel/slick/";
 		}
 	}
 }
+
+.infos {
+	#{&}-card {
+		max-width: 35vw;
+
+		img {
+			width: 100%;
+			height: auto;
+		}
+	}
+}
+
+.places {
+	#{&}-card {
+		max-width: 20vw;
+
+		img {
+			width: 100%;
+			height: auto;
+		}
+	}
+}
