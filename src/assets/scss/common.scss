@@ -207,9 +207,9 @@ $layout: ("center", "flex-start", "flex-end", "space-between", "space-around", "
 // buttons
 @mixin btn($color) {
 	display: block;
-	color: gainsboro;
+	color: whitesmoke;
 	background-color: $color;
-	border: 3px solid $color;
+	border: 2px solid $color;
 	border-radius: 3em;
 	outline: none;
 	text-decoration: none;
@@ -230,9 +230,16 @@ $layout: ("center", "flex-start", "flex-end", "space-between", "space-around", "
 	color: $color;
 }
 
-@mixin btn-gradient($isLinear, $degree, $colors...) {
+@mixin btn-gradient($isLinear, $degree, $bordercolor, $colors...) {
 	@include btn(whitesmoke);
 	@include gradient($isLinear, $degree, $colors...);
+	transition: filter 0.5s ease-in-out !important;
+	border-color: $bordercolor;
+
+	&:active, &:hover, &:focus {
+		border-color: $bordercolor;
+		filter: saturate(200%) brightness(150%);
+	}
 }
 
 .rounded-0 {
@@ -255,7 +262,7 @@ $layout: ("center", "flex-start", "flex-end", "space-between", "space-around", "
 		@include btn-outline($v);
 	}
 	.btn-gradient-#{$k} {
-		@include btn-gradient(true, 90deg, $v 0%, darken($v, 40%) 100%);
+		@include btn-gradient(true, 90deg, $v, $v 0%, darken($v, 20%));
 	}
 }
 
