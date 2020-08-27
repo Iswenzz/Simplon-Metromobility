@@ -19,7 +19,7 @@ module.exports = {
 			cleanStaleWebpackAssets: false,
 		}),
 		new MiniCssExtractPlugin(),
-		...["index", "horaires"].map(html => new HtmlWebpackPlugin({
+		...["index", "transport"].map(html => new HtmlWebpackPlugin({
 			filename: `${html}.html`,
 			template: `public/${html}.html`,
 			minify: {

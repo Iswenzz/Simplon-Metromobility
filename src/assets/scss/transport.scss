@@ -1,0 +1,29 @@
+@import "./common";
+@import "./navbar";
+@import "./footer";
+
+.infos {
+	#{&}-card {
+		max-width: 35vw;
+		min-height: 30em;
+		max-height: 30em;
+
+		img {
+			width: 100%;
+			height: auto;
+		}
+
+		@include media(tablet_mobile, portrait) {
+			max-width: 100%;
+			max-height: none;
+		}
+	}
+
+	#{&}-div {
+		width: 50%;
+
+		@include media(tablet_mobile, portrait) {
+			width: 100%;
+		}
+	}
+}
