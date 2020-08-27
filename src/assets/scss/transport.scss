@@ -1,6 +1,9 @@
 @import "./common";
 @import "./navbar";
-@import "./footer";
+
+html, body {
+	overflow: hidden;
+}
 
 .infos {
 	#{&}-card {
@@ -27,3 +30,44 @@
 		}
 	}
 }
+
+.transportheader {
+	min-height: 3em;
+	background-color: transparentize($color: white, $amount: 0.5);
+}
+
+.transport {
+	height: 100vh;
+
+	#{&}-ways, #{&}-map {
+		@include media(tablet_mobile, portrait) {
+			width: 100%;
+		}
+	}
+
+	#{&}-ways {
+		width: 30%;
+		background-color: transparentize($color: whitesmoke, $amount: 0.2);
+		height: 100vh;
+		overflow-y: scroll;
+	}
+
+	#{&}-map {
+		width: 70%;
+		height: 100vh;
+	}
+
+	#{&}-icon-c {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: white;
+		border-radius: 0.5em;
+		width: 3em;
+		height: 1.5em;
+		margin: 4px;
+	}
+}
+
+// leaflet
+@import "../../../node_modules/leaflet/dist/leaflet.css";

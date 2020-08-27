@@ -1,3 +1,5 @@
+@import "./common";
+
 .navbar {
 	z-index: 1000;
 	background-color: transparent;
@@ -69,4 +71,18 @@
 		height: 100vh;
 		background-color: rgba($color: rgb(0, 26, 56), $alpha: 0.5);
 	}
+}
+
+.mobility-fx {
+	z-index: -1;
+	overflow: visible;
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+	width: 70vw;
+	height: 90vh;
+	background-image: url("../images/mobility-fx.svg");
+	background-repeat: no-repeat;
+	background-size: contain;
 }
