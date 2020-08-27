@@ -17,7 +17,7 @@ $colors: (
 	verbose: $verbose,
 	light: $light,
 	dark: $dark,
-	transparent: $transparent
+	alpha: $transparent
 ) !default;
 
 // gradient
@@ -60,6 +60,27 @@ $queries: (
 			@content;
 		}
 	}
+}
+
+// position
+.p-absolute {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+.p-fixed {
+	position: fixed;
+}
+
+.p-relative {
+	position: relative;
+}
+
+.p-sticky {
+	position: sticky;
 }
 
 // sizes
