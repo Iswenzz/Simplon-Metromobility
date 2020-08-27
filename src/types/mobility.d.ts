@@ -1,8 +1,14 @@
 declare module "mobility"
 {
-	export type WayType = "TRAM" | "C38" | "CHRONO" | "FLEXO" | "SCOL" | "NAVETTE" | "SNC";
+	export type RouteType = "TRAM" | "C38" | "CHRONO" | "FLEXO" | "SCOL" | "NAVETTE" | "SNC" | "PROXIMO";
 
-	export interface Way
+	export interface RouteTypeAlias
+	{
+		type: RouteType,
+		name: string
+	}
+
+	export interface Route
 	{
 		color: string,
 		gtfsId: string,
@@ -11,6 +17,6 @@ declare module "mobility"
 		mode: string,
 		shortName: string,
 		textColor: string,
-		type: WayType
+		type: RouteType
 	}
 }

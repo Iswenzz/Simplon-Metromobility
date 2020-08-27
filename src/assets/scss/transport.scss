@@ -47,9 +47,12 @@ html, body {
 
 	#{&}-ways {
 		width: 30%;
-		background-color: transparentize($color: whitesmoke, $amount: 0.2);
 		height: 100vh;
-		overflow-y: scroll;
+		background-color: transparentize($color: whitesmoke, $amount: 0.2);
+
+		h2 {
+			font-size: 1.5em;
+		}
 	}
 
 	#{&}-map {
@@ -57,15 +60,33 @@ html, body {
 		height: 100vh;
 	}
 
-	#{&}-icon-c {
+	#{&}-icon-proximo, #{&}-icon-flexo, #{&}-icon-chrono, #{&}-icon-tram {
+		cursor: pointer;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		color: white;
-		border-radius: 0.5em;
-		width: 3em;
+		font-weight: bold;
+		font-size: 1.2em;
+		border-radius: 0.3em;
+		width: 1.5em;
 		height: 1.5em;
-		margin: 4px;
+		margin: 2px;
+		user-select: none;
+		opacity: 0.4;
+	}
+
+	#{&}-icon-tram {
+		border-radius: 100%;
+	}
+
+	#{&}-icon-chrono {
+		border-radius: 100%;
+		color: black;
+	}
+
+	.active {
+		opacity: 1;
 	}
 }
 
