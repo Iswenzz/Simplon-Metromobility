@@ -1,8 +1,8 @@
 import * as $ from "jquery";
 import "./assets/scss/transport.scss";
-import { tileLayer, map, Map, geoJSON, Layer, circleMarker, LatLng, LeafletEvent, Popup } from "leaflet";
-import { Route, RouteType, RouteTypeAlias, RouteProperties } from "mobility";
-import { Feature, Geometry, Point } from "geojson";
+import { Route, RouteType, RouteTypeAlias } from "mobility";
+import { Point, FeatureCollection, LineString } from "geojson";
+import { setRTLTextPlugin, Map, Layer, Popup } from "mapbox-gl";
 
 export interface GeoLayerEntry
 {
@@ -10,29 +10,32 @@ export interface GeoLayerEntry
 	geo: Layer
 }
 
-export const leafletMap: Map = map("transport-map");
-export const leafletGeoLayers: GeoLayerEntry[] = [];
-export const leafletMarkers: Layer[] = [];
+export let glMap: Map = null;
+export const glMarkers: Layer[] = [];
 export const selectedRoutes: string[] = [];
+export const tagRoutes: Route[] = [];
 
 $(document).ready(async () =>
 {
-	tileLayer("https://{s}.tile.jawg.io/jawg-light/{z}/{x}/{y}{r}.png?access-token={accessToken}", {
-		attribution: "<a href=\"http://jawg.io\" title=\"Tiles Courtesy of Jawg Maps\" target=\"_blank\">&copy; <b>Jawg</b>Maps</a> &copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
-		minZoom: 0,
-		maxZoom: 20,
-		accessToken: "rqrBCfJjYJcKDiYxR3c8jod4VTP1SqXB8Sa79EvDHKKNHUI87bf8GfHqsGiQOXcb"
-	}).addTo(leafletMap);
-	leafletMap.setView([45.188516, 5.724468], 13);
+	glMap = new Map({
+		container: "transport-map",
+		style: "https://api.jawg.io/styles/428affb1-5512-4f18-b042-260b24de67f4.json?access-token=rqrBCfJjYJcKDiYxR3c8jod4VTP1SqXB8Sa79EvDHKKNHUI87bf8GfHqsGiQOXcb",
+		zoom: 12.01,
+		center: [5.72227, 45.16945]
+	});
+	setRTLTextPlugin("https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js",
+		(e) => console.log(e));
+	glMap.setCenter([5.724468, 45.188516]);
+	glMap.setZoom(13);
 
-	// leaflet zoom event
-	leafletMap.on("zoomend", () => 
+	// gl zoom event
+	glMap.on("zoomed", () => 
 	{
 		// show markers only if map is zoomed enough
-		if(leafletMap.getZoom() >= 14)
-			leafletMarkers.forEach(m => m.addTo(leafletMap));
+		if(glMap.getZoom() >= 15)
+			glMarkers.forEach((m: Layer) => glMap.addLayer(m));
 		else 
-			leafletMarkers.forEach(m => m.removeFrom(leafletMap));
+			glMarkers.forEach((m: Layer) => glMap.removeLayer(m.id));
 	});
 
 	// get routes
@@ -42,6 +45,7 @@ $(document).ready(async () =>
 		dataType: "json",
 	}).done((data: Route[]) =>
 	{
+		tagRoutes.push(...data);
 		console.log(data);
 		const types: RouteTypeAlias[] = [
 			{ type: "TRAM", name: "Tram" },
@@ -60,40 +64,32 @@ $(document).ready(async () =>
 
 	// get stops
 	$.ajax({
-		url: "https://data.metromobilite.fr/api/bbox/json?&types=arret",
+		url: "https://data.metromobilite.fr/api/bbox/json?&types=pointArret",
 		type: "GET",
 		dataType: "json",
-	}).done((data: any) =>
+	}).done((geojson: FeatureCollection<Point>) =>
 	{
-		console.log(data);
-		geoJSON(data, {
-			pointToLayer: (feature: Feature<Point, RouteProperties>, latlng: LatLng): Layer => {
-				return circleMarker(latlng, {
-					radius: 8,
-					fillColor: "royalblue",
-					color: "#000",
-					weight: 1,
-					opacity: 1,
-					fillOpacity: 0.8
-				});
-			},
-			onEachFeature: (feature: Feature<Geometry, RouteProperties>, layer: Layer): void => 
-			{
-				const routeInfo = $<HTMLElement>(`
-					<article class="routeinfo">
-						<header>
-							<h3>${feature.properties.LIBELLE}</h3>
-						</header>
-					</article>
-				`);
-
-				leafletMarkers.push(layer);
-				layer.bindPopup(routeInfo.get(0), {
-					className: "routeinfo-popup"
-				});
-				layer.addEventListener("click", onMarkerPopup);
+		console.log(geojson);
+		glMap.addSource("routestops", {
+			type: "geojson",
+			data: geojson
+		});
+		glMap.addLayer({
+			"id": "routestops",
+			"type": "circle",
+			"source": "routestops",
+			"layout": {},
+			"paint": {
+				"circle-radius": 8,
+				"circle-opacity": 0.8,
+				"circle-color": "royalblue",
 			}
-		}).addTo(leafletMap);
+		});
+
+		// maker events
+		glMap.on("click", "routestops", onMarkerPopup);
+		glMap.on("mouseenter", "routestops", () => glMap.getCanvas().style.cursor = "pointer");
+		glMap.on("mouseleave", "routestops", () => glMap.getCanvas().style.cursor = "");
 		
 	}).fail((error: JQuery.jqXHR<any>) => 
 	{
@@ -126,7 +122,7 @@ export const getTransportRoutes = (data: Route[], type: RouteType): JQuery<HTMLE
 };
 
 /**
- * Render route lines to leaflet map.
+ * Render route lines to gl map.
  * @param routeCode - The route code (ex: SEM_C3).
  * @param color - The route color.
  */
@@ -136,25 +132,29 @@ export const renderRouteGeoJSON = (routeCode: string, color: string): void =>
 		url: `https://data.metromobilite.fr/api/lines/json?types=ligne&codes=${routeCode}`,
 		type: "GET",
 		dataType: "json",
-	}).done((geoJson: any) =>
+	}).done((geojson: FeatureCollection<LineString>) =>
 	{
-		if (leafletGeoLayers[routeCode])
-		{
-			leafletGeoLayers[routeCode].removeFrom(leafletMap);
-			leafletGeoLayers[routeCode] = undefined;
-		}
+		if (glMap.getLayer(routeCode))
+			glMap.removeLayer(routeCode);
 		else
 		{
-			leafletGeoLayers[routeCode] = geoJSON(geoJson.features[0], {
-				style: {
-					color: color,
-					weight: 5,
-					opacity: 0.65
+			if (!glMap.getSource(routeCode))
+				glMap.addSource(routeCode, {
+					type: "geojson",
+					data: geojson
+				});
+			glMap.addLayer({
+				"id": routeCode,
+				"type": "line",
+				"source": routeCode,
+				"layout": {},
+				"paint": {
+					"line-width": 5,
+					"line-opacity": 0.8,
+					"line-color": color,
 				}
 			});
-			leafletMap.addLayer(leafletGeoLayers[routeCode]);
 		}
-		// leafletMap.setView(geoJson.features[0].geometry.coordinates[0].reverse(), 13);
 	}).fail((error: JQuery.jqXHR<any>) =>
 	{
 		console.log(error);
@@ -162,15 +162,45 @@ export const renderRouteGeoJSON = (routeCode: string, color: string): void =>
 };
 
 /**
- * 
- * @param e 
+ * Callback popup when clicking a route stop.
+ * @param e - Event arg.
  */
-export const onMarkerPopup = (e: LeafletEvent): void =>
+export const onMarkerPopup = (e: any): void =>
 {
-	const popUp = e.target._popup._content;
-	const feature: Feature<Geometry, RouteProperties> = e.target.feature;
-	console.log(feature);
-	$(popUp).children().first().css("background-color", "red");
+	console.log(e);
+	const id: string = e.features[0].properties.id;
+	const routeName = e.features[0].properties.lgn.split(",")[0].split("_")[1];
+	let color: string = tagRoutes.find(r => r.shortName === routeName)?.color ?? "black";
+	color = "#" + color;
+
+	const coordinates = e.features[0].geometry.coordinates.slice();
+	const routeInfo = `
+		<article class="routeinfo">
+			<header style="background-color: ${color}">
+				<h3>${e.features[0].properties.LIBELLE}</h3>
+			</header>
+		</article>
+	`;
+
+	// ensure that if the map is zoomed out such that multiple
+	// copies of the feature are visible, the popup appears over the copy being pointed to
+	while (Math.abs(e.lngLat.lng - coordinates[0]) > 180)
+		coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+	new Popup().setLngLat(coordinates)
+		.setHTML(routeInfo)
+		.addTo(glMap);
+
+	$.ajax({
+		url: `https://data.mobilites-m.fr/api/routers/default/index/stops/${id}/stoptimes`,
+		type: "GET",
+		dataType: "json",
+	}).done((route: Route) =>
+	{
+		console.log(route);
+	}).fail((error: JQuery.jqXHR<Route>) =>
+	{
+		console.log(error);
+	});
 };
 
 /**

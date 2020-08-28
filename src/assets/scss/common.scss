@@ -366,7 +366,7 @@ body {
 	color: black;
 	font-family: "Metrophobic", sans-serif;
 	scrollbar-width: thin;
-	scrollbar-color: $thumb-bg $scrollbar-bg;
+	// scrollbar-color: $thumb-bg $scrollbar-bg;
 
 	h1, h2, h3, h4 {
 		font-family: "Montserrat", sans-serif;
@@ -392,13 +392,13 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-	background: $scrollbar-bg;
+	// background: $scrollbar-bg;
 	border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-	background-color: $thumb-bg;
-	border: 3px solid $scrollbar-bg;
+	// background-color: $thumb-bg;
+	// border: 3px solid $scrollbar-bg;
 	border-radius: 10px;
 }
 

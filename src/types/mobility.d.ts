@@ -7,11 +7,14 @@ declare module "mobility"
 		CODE: string,
 		COMMUNE: string,
 		LIBELLE: string,
+		ZONE: string,
+		PMR: string,
 		LaMetro: boolean,
 		LeGresivaudan: boolean,
 		PaysVoironnais: boolean,
 		arr_visible?: string,
 		id: string,
+		lgn: string,
 		type: string
 	}
 

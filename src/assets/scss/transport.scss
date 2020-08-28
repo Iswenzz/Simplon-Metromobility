@@ -106,14 +106,11 @@ body {
 	}
 }
 
-.leaflet-popup-content {
-	padding: 0 !important;
-	margin: 0 !important;
+.mapboxgl-popup {
+	max-width: 400px;
 }
 
-.routeinfo-popup {
-	min-width: 300px;
-
+.routeinfo {
 	header {
 		text-align: center;
 		border-top-left-radius: 12px;
@@ -121,10 +118,34 @@ body {
 		color: white;
 		
 		h3 {
+			padding: 0.8em;
 			margin-top: 0;
 		}
 	}
 }
 
-// leaflet
-@import "../../../node_modules/leaflet/dist/leaflet.css";
+.mapboxgl-popup-close-button {
+	color: white;
+	padding: 0;
+	border-radius: 5em;
+	background-color: rgb(41, 48, 70);
+	font-size: 2em;
+	font-weight: bold;
+	margin: -0.5em;
+	width: 1.2em;
+	height: 1.2em;
+
+	&:active, &:hover, &:focus {
+		background-color: rgb(90, 105, 155);
+		color: gainsboro;
+	}
+}
+
+.mapboxgl-popup-content {
+	border-radius: 12px;
+	padding: 0;
+	margin: 0;
+}
+
+// mapbox gl
+@import "../../../node_modules/mapbox-gl/dist/mapbox-gl.css";
