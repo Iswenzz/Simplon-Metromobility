@@ -1,8 +1,20 @@
 @import "./common";
 @import "./navbar";
 
-html, body {
-	overflow: hidden;
+body {
+	height: 100vh;
+}
+
+.navbar {
+	display: flex;
+	height: 30vh;
+	flex-direction: column;
+	justify-content: space-between;
+	
+	nav {
+		margin-top: 0 !important;
+		margin-bottom: 0 !important;
+	}
 }
 
 .infos {
@@ -32,12 +44,15 @@ html, body {
 }
 
 .transportheader {
-	min-height: 3em;
 	background-color: transparentize($color: white, $amount: 0.5);
+
+	h1 {
+		margin: 0.3em 0;
+	}
 }
 
 .transport {
-	height: 100vh;
+	height: 70vh;
 
 	#{&}-ways, #{&}-map {
 		@include media(tablet_mobile, portrait) {
@@ -47,7 +62,8 @@ html, body {
 
 	#{&}-ways {
 		width: 30%;
-		height: 100vh;
+		overflow-y: scroll;
+		height: 100%;
 		background-color: transparentize($color: whitesmoke, $amount: 0.2);
 
 		h2 {
@@ -57,7 +73,7 @@ html, body {
 
 	#{&}-map {
 		width: 70%;
-		height: 100vh;
+		height: 100%;
 	}
 
 	#{&}-icon-proximo, #{&}-icon-flexo, #{&}-icon-chrono, #{&}-icon-tram {
@@ -87,6 +103,26 @@ html, body {
 
 	.active {
 		opacity: 1;
+	}
+}
+
+.leaflet-popup-content {
+	padding: 0 !important;
+	margin: 0 !important;
+}
+
+.routeinfo-popup {
+	min-width: 300px;
+
+	header {
+		text-align: center;
+		border-top-left-radius: 12px;
+		border-top-right-radius: 12px;
+		color: white;
+		
+		h3 {
+			margin-top: 0;
+		}
 	}
 }
 

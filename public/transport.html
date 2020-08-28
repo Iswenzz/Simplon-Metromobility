@@ -18,8 +18,8 @@
 </head>
 <body>
 	<!-- NavBar -->
-	<header class="navbar container my-3">
-		<nav class="d-flex">
+	<header class="navbar">
+		<nav class="d-flex container py-3">
 			<a class="navbar-brand" href="index.html">
 				<img class="" src="../src/assets/images/tag-logo.png" alt="MetroMoblity Logo">
 			</a>
@@ -47,9 +47,7 @@
 				</ul>
 			</section>
 		</nav>
-	</header>
-
-	<main>
+		<!-- FX -->
 		<div class="mobility-fx"></div>
 		<!-- Header -->
 		<section class="transportheader shadow-lg">
@@ -57,9 +55,11 @@
 				<h1>Lignes et horaires</h1>
 			</header>
 		</section>
+	</header>
 
+	<main>
 		<!-- Transport -->
-		<section class="transport shadow d-flex justify-content-center">
+		<section id="transport" class="transport shadow d-flex justify-content-center">
 			<aside id="transport-ways" class="transport-ways p-3"></aside>
 			<section id="transport-map" class="transport-map shadow-lg"></section>
 		</section>
