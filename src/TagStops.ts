@@ -1,17 +1,17 @@
 import * as $ from "jquery";
-import { Marker, MapboxGeoJSONFeature, Popup } from "mapbox-gl";
+import { Marker, MapboxGeoJSONFeature, Popup, MapSourceDataEvent } from "mapbox-gl";
 import { FeatureCollection, Feature, Point } from "geojson";
 import { RouteProperties, Route } from "mobility";
-import { glMap, tagRoutes } from "./transport";
+import { glMap, tagLines } from "./transport";
 
 /**
  * Render TAG's route stops as markers, with a popup to query more information.
  */
-export class RoutePoints
+export class TagStops
 {
 	public geoJSON: FeatureCollection<Point, RouteProperties>;
-	public markers: Marker[] = [];
-	public markersOnScreen: Marker[] = [];
+	public glMarkers: Marker[] = [];
+	public glMarkersOnScreen: Marker[] = [];
 
 	/**
 	 * Initialize a new RoutePoints object with the specified geojson data.
@@ -36,12 +36,20 @@ export class RoutePoints
 			"layout": {},
 			"paint": {},
 		});
+
+		// update markers on the screen after the geojson data is loaded
+		glMap.on("data", (e: MapSourceDataEvent): void =>
+		{
+			if (e.sourceId !== "routestops") 
+				return;
+			this.frame();
+		});
 	}
 
 	/**
 	 * Create HTML markers, used for caching and keeping track of HTML marker objects
 	 */
-	public updateMarkers(): void
+	public frame(): void
 	{
 		const newMarkers: Marker[] = [];
 		const features: MapboxGeoJSONFeature[] = glMap.querySourceFeatures("routestops");
@@ -52,11 +60,11 @@ export class RoutePoints
 			const feature: Feature<Point, RouteProperties> = point as any;
 			const id: string = feature.properties.id;
 			const routeName: string = feature.properties.lgn.split(",")[0].split("_")[1];
-			const route: Route = tagRoutes.find(r => r.shortName === routeName);
+			const route: Route = tagLines.routes.find(r => r.shortName === routeName);
 			const color: string = "#" + route?.color ?? "black";
 			const textColor: string = "#" + route?.textColor ?? "black";
 
-			let marker: Marker = this.markers[id];
+			let marker: Marker = this.glMarkers[id];
 			if (!marker)
 			{
 				const elem = $(`
@@ -64,22 +72,22 @@ export class RoutePoints
 						${route.shortName}
 					</div>
 				`);
-				marker = this.markers[id] = new Marker({ element: elem.get(0) })
+				marker = this.glMarkers[id] = new Marker({ element: elem.get(0) })
 					.setLngLat(feature.geometry.coordinates as [number, number])
 					.setPopup(this.createPopup(feature));
 			}
 			newMarkers[id] = marker;
 
-			if (!this.markersOnScreen[id]) 
+			if (!this.glMarkersOnScreen[id]) 
 				marker.addTo(glMap);
 		}
 		// remove markers that are no longer visible
-		for (const id in this.markersOnScreen)
+		for (const id in this.glMarkersOnScreen)
 		{
 			if (!newMarkers[id]) 
-				this.markersOnScreen[id].remove();
+				this.glMarkersOnScreen[id].remove();
 		}
-		this.markersOnScreen = newMarkers;
+		this.glMarkersOnScreen = newMarkers;
 	}
 
 	/**
@@ -89,8 +97,8 @@ export class RoutePoints
 	private createPopup(feature: Feature<Point, RouteProperties>): Popup
 	{
 		// const id: string = feature.properties.id;
-		const routeName = feature.properties.lgn.split(",")[0].split("_")[1];
-		const route: Route = tagRoutes.find(r => r.shortName === routeName);
+		const routeName: string = feature.properties.lgn.split(",")[0].split("_")[1];
+		const route: Route = tagLines.routes.find(r => r.shortName === routeName);
 		const color: string = "#" + route?.color ?? "black";
 		const textColor: string = "#" + route?.textColor ?? "black";
 
@@ -102,19 +110,6 @@ export class RoutePoints
 				</header>
 			</article>
 		`;
-
-		// $.ajax({
-		// 	url: `https://data.mobilites-m.fr/api/routers/default/index/stops/${id}/stoptimes`,
-		// 	type: "GET",
-		// 	dataType: "json",
-		// }).done((route: Route) =>
-		// {
-		// 	console.log(route);
-		// }).fail((error: JQuery.jqXHR<Route>) =>
-		// {
-		// 	console.log(error);
-		// });
-
 		return new Popup().setLngLat(coordinates as [number, number])
 			.setHTML(routeInfo)
 			.addTo(glMap);
