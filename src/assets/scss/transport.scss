@@ -7,7 +7,7 @@ body {
 
 .navbar {
 	display: flex;
-	height: 30vh;
+	height: 25vh;
 	flex-direction: column;
 	justify-content: space-between;
 	
@@ -52,7 +52,7 @@ body {
 }
 
 .transport {
-	height: 70vh;
+	height: 75vh;
 
 	#{&}-ways, #{&}-map {
 		@include media(tablet_mobile, portrait) {
@@ -61,8 +61,8 @@ body {
 	}
 
 	#{&}-ways {
-		width: 30%;
-		overflow-y: scroll;
+		width: 25%;
+		overflow-y: auto;
 		height: 100%;
 		background-color: transparentize($color: whitesmoke, $amount: 0.2);
 
@@ -72,7 +72,7 @@ body {
 	}
 
 	#{&}-map {
-		width: 70%;
+		width: 75%;
 		height: 100%;
 	}
 
@@ -101,7 +101,7 @@ body {
 }
 
 .mapboxgl-popup {
-	max-width: 400px;
+	min-width: 300px;
 }
 
 .routeinfo {
@@ -112,9 +112,42 @@ body {
 		
 		h3 {
 			padding: 0.8em;
-			margin-top: 0;
+			margin: 0;
 		}
 	}
+
+	#{&}-container {
+		max-height: 220px;
+		overflow-y: auto;
+	}
+
+	#{&}-section {
+		margin: 0.4em;
+		border: solid 4px gainsboro;
+		border-radius: 12px;
+
+		h5 {
+			margin: 0;
+			font-size: 1em;
+			padding: 0.2em;
+		}
+
+		p {
+			margin: 0;
+			font-weight: bold;
+		}
+	}
+}
+
+.marker {
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 1.5em;
+	height: 1.5em;
+	font-size: 1.3em !important;
+	opacity: 1 !important;
 }
 
 .mapboxgl-popup-close-button {
@@ -132,18 +165,6 @@ body {
 		background-color: rgb(90, 105, 155);
 		color: gainsboro;
 	}
-}
-
-.marker {
-	cursor: pointer;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 1.5em;
-	height: 1.5em;
-	border-radius: 3em;
-	font-size: 1.3em;
-	font-weight: bold;
 }
 
 .mapboxgl-popup-content {

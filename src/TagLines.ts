@@ -88,7 +88,7 @@ export class TagLines
 					}
 				});
 			}
-		}).fail((error: JQuery.jqXHR<any>) =>
+		}).fail((error: JQuery.jqXHR) =>
 		{
 			console.log(error);
 		});

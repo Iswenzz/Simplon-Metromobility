@@ -2,7 +2,7 @@ import * as $ from "jquery";
 import "./assets/scss/transport.scss";
 import { Route, RouteProperties } from "mobility";
 import { Point, FeatureCollection } from "geojson";
-import { setRTLTextPlugin, Map } from "mapbox-gl";
+import { setRTLTextPlugin, Map, Popup } from "mapbox-gl";
 import { TagStops } from "./TagStops";
 import { TagLines } from "./TagLines";
 
@@ -16,13 +16,11 @@ $(document).ready(async () =>
 	glMap = new Map({
 		container: "transport-map",
 		style: "https://api.jawg.io/styles/428affb1-5512-4f18-b042-260b24de67f4.json?access-token=rqrBCfJjYJcKDiYxR3c8jod4VTP1SqXB8Sa79EvDHKKNHUI87bf8GfHqsGiQOXcb",
-		zoom: 12.01,
-		center: [5.72227, 45.16945]
+		zoom: 17,
+		center: [5.724468, 45.188516]
 	});
 	setRTLTextPlugin("https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js",
-		(e) => console.log(e));
-	glMap.setCenter([5.724468, 45.188516]);
-	glMap.setZoom(13);
+		(e: Error) => e ? console.log(e) : null);
 
 	// initialize TAG's lines
 	$.ajax({
@@ -36,7 +34,7 @@ $(document).ready(async () =>
 
 		for (const { type } of tagLines.types)
 			aside.append(tagLines.getTransportRoutes(type));
-	}).fail((error: JQuery.jqXHR<Route>) => 
+	}).fail((error: JQuery.jqXHR) => 
 	{
 		console.log(error);
 	});
@@ -49,7 +47,7 @@ $(document).ready(async () =>
 	}).done((geojson: FeatureCollection<Point, RouteProperties>) =>
 	{
 		tagStops = new TagStops(geojson);
-	}).fail((error: JQuery.jqXHR<any>) => 
+	}).fail((error: JQuery.jqXHR) => 
 	{
 		console.log(error);
 	});

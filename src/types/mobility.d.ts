@@ -2,6 +2,38 @@ declare module "mobility"
 {
 	export type RouteType = "TRAM" | "C38" | "CHRONO" | "FLEXO" | "SCOL" | "NAVETTE" | "SNC" | "PROXIMO";
 
+	export interface RoutePattern
+	{
+		desc: string,
+		dir: number,
+		id: string,
+		lastStop: string,
+		lastStopName: string,
+		shortDesc: string
+	}
+
+	export interface RouteTime
+	{
+		arrivalDelay: number,
+		departureDelay: number,
+		realtime: boolean,
+		realtimeArrival: number,
+		realtimeDeparture: number,
+		scheduleArrival: number,
+		scheduleDeparture: number,
+		serviceDay:  number,
+		stopId: string,
+		stopName: string,
+		timepoint: boolean,
+		tripId: number
+	}
+
+	export interface RouteStopTimes
+	{
+		pattern: RoutePattern,
+		times: RouteTime[]
+	}
+
 	export interface RouteProperties
 	{
 		CODE: string,

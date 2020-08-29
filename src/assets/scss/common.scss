@@ -368,7 +368,7 @@ body {
 	scrollbar-width: thin;
 	// scrollbar-color: $thumb-bg $scrollbar-bg;
 
-	h1, h2, h3, h4 {
+	h1, h2, h3, h4, h5, h6 {
 		font-family: "Montserrat", sans-serif;
 		font-weight: 600;
 		font-size: 1.5em;
@@ -404,3 +404,4 @@ body {
 
 // AnimateCSS
 @import "../../../node_modules/animate.css/animate.min.css";
+@import "./spinner";
