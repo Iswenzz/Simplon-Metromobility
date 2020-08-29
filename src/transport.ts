@@ -1,8 +1,9 @@
 import * as $ from "jquery";
 import "./assets/scss/transport.scss";
-import { Route, RouteType, RouteTypeAlias } from "mobility";
+import { Route, RouteType, RouteTypeAlias, RouteProperties } from "mobility";
 import { Point, FeatureCollection, LineString } from "geojson";
-import { setRTLTextPlugin, Map, Layer, Popup } from "mapbox-gl";
+import { setRTLTextPlugin, Map, Layer, MapSourceDataEvent } from "mapbox-gl";
+import { RoutePoints } from "./RoutePoints";
 
 export interface GeoLayerEntry
 {
@@ -11,9 +12,16 @@ export interface GeoLayerEntry
 }
 
 export let glMap: Map = null;
-export const glMarkers: Layer[] = [];
+export let glMarkers: RoutePoints = null;
+
 export const selectedRoutes: string[] = [];
 export const tagRoutes: Route[] = [];
+export const tagTypes: RouteTypeAlias[] = [
+	{ type: "TRAM", name: "Tram" },
+	{ type: "CHRONO", name: "Chrono" },
+	{ type: "FLEXO", name: "Flexo" },
+	{ type: "PROXIMO", name: "Proximo" }
+];
 
 $(document).ready(async () =>
 {
@@ -28,16 +36,6 @@ $(document).ready(async () =>
 	glMap.setCenter([5.724468, 45.188516]);
 	glMap.setZoom(13);
 
-	// gl zoom event
-	glMap.on("zoomed", () => 
-	{
-		// show markers only if map is zoomed enough
-		if(glMap.getZoom() >= 15)
-			glMarkers.forEach((m: Layer) => glMap.addLayer(m));
-		else 
-			glMarkers.forEach((m: Layer) => glMap.removeLayer(m.id));
-	});
-
 	// get routes
 	$.ajax({
 		url: "https://data.metromobilite.fr/api/routers/default/index/routes",
@@ -46,16 +44,9 @@ $(document).ready(async () =>
 	}).done((data: Route[]) =>
 	{
 		tagRoutes.push(...data);
-		console.log(data);
-		const types: RouteTypeAlias[] = [
-			{ type: "TRAM", name: "Tram" },
-			{ type: "CHRONO", name: "Chrono" },
-			{ type: "FLEXO", name: "Flexo" },
-			{ type: "PROXIMO", name: "Proximo" }
-		];
 		const aside = $<HTMLElement>("#transport-ways");
 
-		for (const { type } of types)
+		for (const { type } of tagTypes)
 			aside.append(getTransportRoutes(data, type));
 	}).fail((error: JQuery.jqXHR<Route>) => 
 	{
@@ -67,29 +58,17 @@ $(document).ready(async () =>
 		url: "https://data.metromobilite.fr/api/bbox/json?&types=pointArret",
 		type: "GET",
 		dataType: "json",
-	}).done((geojson: FeatureCollection<Point>) =>
+	}).done((geojson: FeatureCollection<Point, RouteProperties>) =>
 	{
-		console.log(geojson);
-		glMap.addSource("routestops", {
-			type: "geojson",
-			data: geojson
-		});
-		glMap.addLayer({
-			"id": "routestops",
-			"type": "circle",
-			"source": "routestops",
-			"layout": {},
-			"paint": {
-				"circle-radius": 8,
-				"circle-opacity": 0.8,
-				"circle-color": "royalblue",
-			}
-		});
+		glMarkers = new RoutePoints(geojson);
 
-		// maker events
-		glMap.on("click", "routestops", onMarkerPopup);
-		glMap.on("mouseenter", "routestops", () => glMap.getCanvas().style.cursor = "pointer");
-		glMap.on("mouseleave", "routestops", () => glMap.getCanvas().style.cursor = "");
+		// update markers on the screen after the geojson data is loaded
+		glMap.on("data", (e: MapSourceDataEvent): void =>
+		{
+			if (e.sourceId !== "routestops") 
+				return;
+			glMarkers.updateMarkers();
+		});
 		
 	}).fail((error: JQuery.jqXHR<any>) => 
 	{
@@ -113,7 +92,10 @@ export const getTransportRoutes = (data: Route[], type: RouteType): JQuery<HTMLE
 	for (const w of dataFiltered)
 	{
 		const entry = $<HTMLLIElement>(`<li data-id="${w.id}" data-name="${w.shortName}" data-color="${"#" + w.color}" data-gtfsId="${w.gtfsId}" class="transport-icon-${classType}">${w.shortName}</li>`);
-		entry.css("background-color", "#" + w.color);
+		entry.css({
+			"background-color": "#" + w.color,
+			"color": "#" + w.textColor
+		});
 		entry.click(onRouteClick);
 		list.append(entry);
 	}
@@ -156,48 +138,6 @@ export const renderRouteGeoJSON = (routeCode: string, color: string): void =>
 			});
 		}
 	}).fail((error: JQuery.jqXHR<any>) =>
-	{
-		console.log(error);
-	});
-};
-
-/**
- * Callback popup when clicking a route stop.
- * @param e - Event arg.
- */
-export const onMarkerPopup = (e: any): void =>
-{
-	console.log(e);
-	const id: string = e.features[0].properties.id;
-	const routeName = e.features[0].properties.lgn.split(",")[0].split("_")[1];
-	let color: string = tagRoutes.find(r => r.shortName === routeName)?.color ?? "black";
-	color = "#" + color;
-
-	const coordinates = e.features[0].geometry.coordinates.slice();
-	const routeInfo = `
-		<article class="routeinfo">
-			<header style="background-color: ${color}">
-				<h3>${e.features[0].properties.LIBELLE}</h3>
-			</header>
-		</article>
-	`;
-
-	// ensure that if the map is zoomed out such that multiple
-	// copies of the feature are visible, the popup appears over the copy being pointed to
-	while (Math.abs(e.lngLat.lng - coordinates[0]) > 180)
-		coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-	new Popup().setLngLat(coordinates)
-		.setHTML(routeInfo)
-		.addTo(glMap);
-
-	$.ajax({
-		url: `https://data.mobilites-m.fr/api/routers/default/index/stops/${id}/stoptimes`,
-		type: "GET",
-		dataType: "json",
-	}).done((route: Route) =>
-	{
-		console.log(route);
-	}).fail((error: JQuery.jqXHR<Route>) =>
 	{
 		console.log(error);
 	});

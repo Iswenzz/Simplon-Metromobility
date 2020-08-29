@@ -81,7 +81,6 @@ body {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		color: white;
 		font-weight: bold;
 		font-size: 1.2em;
 		border-radius: 0.3em;
@@ -92,13 +91,8 @@ body {
 		opacity: 0.4;
 	}
 
-	#{&}-icon-tram {
+	#{&}-icon-tram, #{&}-icon-chrono {
 		border-radius: 100%;
-	}
-
-	#{&}-icon-chrono {
-		border-radius: 100%;
-		color: black;
 	}
 
 	.active {
@@ -115,7 +109,6 @@ body {
 		text-align: center;
 		border-top-left-radius: 12px;
 		border-top-right-radius: 12px;
-		color: white;
 		
 		h3 {
 			padding: 0.8em;
@@ -139,6 +132,18 @@ body {
 		background-color: rgb(90, 105, 155);
 		color: gainsboro;
 	}
+}
+
+.marker {
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 3em;
+	font-size: 1.3em;
+	font-weight: bold;
 }
 
 .mapboxgl-popup-content {
