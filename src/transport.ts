@@ -19,6 +19,7 @@ $(document).ready(async () =>
 		zoom: 17,
 		center: [5.724468, 45.188516]
 	});
+	glMap.doubleClickZoom.disable();
 	setRTLTextPlugin("https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js",
 		(e: Error) => e ? console.log(e) : null);
 

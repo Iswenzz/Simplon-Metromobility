@@ -3,7 +3,7 @@ import { Marker, MapboxGeoJSONFeature, Popup, MapSourceDataEvent } from "mapbox-
 import { FeatureCollection, Feature, Point } from "geojson";
 import { RouteProperties, Route, RouteStopTimes, RouteTime } from "mobility";
 import { glMap, tagLines } from "./transport";
-import { createLoaderAnim } from ".";
+import { createLoaderAnim, formatRealtimeDate } from ".";
 
 export interface MarkerClickArgs
 {
@@ -142,10 +142,10 @@ export class TagStops
 							${route.shortName}
 						</div>
 						<div>
-							<h5>${route.longName}</h5>
+							<h5>${stop.pattern.desc}</h5>
 							<div class="d-flex justify-content-space-between align-content-center">
 								${times.map((t: RouteTime) => `
-									<p class="p-2">${t.realtimeArrival}</p>
+									<p class="p-2">${formatRealtimeDate(t.realtimeArrival)}</p>
 								`).join("")}
 							</div>
 						</div>

@@ -100,10 +100,6 @@ body {
 	}
 }
 
-.mapboxgl-popup {
-	min-width: 300px;
-}
-
 .routeinfo {
 	header {
 		text-align: center;
@@ -128,7 +124,7 @@ body {
 
 		h5 {
 			margin: 0;
-			font-size: 1em;
+			font-size: 1.2em;
 			padding: 0.2em;
 		}
 
@@ -137,6 +133,10 @@ body {
 			font-weight: bold;
 		}
 	}
+}
+
+.mapboxgl-popup {
+	min-width: 200px;
 }
 
 .marker {
