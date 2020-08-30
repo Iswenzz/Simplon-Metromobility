@@ -26,13 +26,20 @@ export const createLoaderAnim = (): JQuery<HTMLDivElement> =>
  */
 export const formatRealtimeDate = (seconds: number): string =>
 {
+	// get the current day and set it to midnight + the seconds we get from the API
 	const date: Date = new Date(Date.now());
 	date.setHours(0);
 	date.setMinutes(0);
 	date.setSeconds(seconds);
 
-	const eta: Date = new Date(date.getTime() - Date.now());
-	return eta.getMinutes() < 1 ? "<1min" : `${eta.getMinutes()}mins`;
+	// substract the next stop date by the current date minus 1 hour
+	const eta: Date = new Date(date.getTime() - Date.now() - (3600 * 1000));
+	if (eta.getHours() >= 1)
+		return `${date.getHours()}:${date.getMinutes()}`;
+	else if (eta.getMinutes() < 1)
+		return "<1min";
+	else
+		return `${eta.getMinutes()}mins`;
 };
 
 $(document).ready(() =>
