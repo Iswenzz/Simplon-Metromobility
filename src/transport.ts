@@ -6,18 +6,47 @@ import { Point, FeatureCollection } from "geojson";
 import { setRTLTextPlugin, Map } from "mapbox-gl";
 import { TagStops } from "./TagStops";
 import { TagLines } from "./TagLines";
+import { TagFavorite } from "./TagFavorite";
 
 export let glMap: Map = null;
 export let tagStops: TagStops = null;
 export let tagLines: TagLines = null;
+export const tagFavorite: TagFavorite = new TagFavorite($<HTMLElement>("#favorite-container"));
 
-export let transportWaysAnimDone = true;
-export const transportWays = $<HTMLElement>("#transport-ways, #transport-ways header");
+export interface TransportWindow
+{
+	name: string,
+	element: JQuery<HTMLElement>
+	isOpened: boolean,
+	isAnimDone: boolean,
+	toggleCallback: () => void
+}
+
+export const windows = {
+	ways: { 
+		name: "ways",
+		element: $<HTMLElement>("#transport-ways, #transport-ways header"),
+		isOpened: true,
+		isAnimDone: true,
+		toggleCallback: function(): void { toggleRouteDrawer(this); }
+	},
+	favorite: { 
+		name: "favorite",
+		element: $<HTMLElement>("#favorite-drawer"),
+		isOpened: false,
+		isAnimDone: true,
+		toggleCallback: function(): void { toggleFavoriteDrawer(this); }
+	}
+};
 
 $(document).ready(async () =>
 {
+	// load favorite
+	tagFavorite.load();
+
 	// initialize map buttons events
-	$<HTMLButtonElement>("#transport-ways-toggler").click(toggleRouteDrawer);
+	$<HTMLButtonElement>("#transport-ways-toggler").click(toggleWindow.bind(windows, windows["ways"]));
+	$<HTMLButtonElement>("#favorite-drawer-toggler").click(toggleWindow.bind(windows, windows["favorite"]));
 
 	// initialize gl map canvas
 	glMap = new Map({
@@ -62,26 +91,76 @@ $(document).ready(async () =>
 });
 
 /**
+ * Toggle a specific window.
+ * @param window - The window object.
+ */
+export const toggleWindow = (window: TransportWindow): void =>
+{
+	// close windows
+	for (const w of Object.values(windows))
+		if (w.name !== window.name && w.isOpened)
+			w.toggleCallback();
+	// open the specified window
+	window.toggleCallback();
+};
+
+/**
  * Toggle the route drawer.
  */
-export const toggleRouteDrawer = (): void =>
+export const toggleRouteDrawer = (window: TransportWindow): void =>
 {
-	if (!transportWaysAnimDone)
+	if (!window.isAnimDone)
 		return;
-	transportWaysAnimDone = false;
-	if (transportWays.css("display") === "block")
+
+	window.isAnimDone = false;
+	if (window.element.css("display") === "block")
 	{
-		transportWays.animate({ left: "-100%" }, 500, () => 
+		$("#transport-ways-toggler").text("tram");
+		window.element.animate({ left: "-100%" }, 500, () => 
 		{
-			transportWays.css("display", "none");
-			transportWaysAnimDone = true;
+			window.element.css("display", "none");
+			window.isAnimDone = true;
 		});
+		window.isOpened = false;
 	}
 	else
 	{
-		transportWays.css("display", "block").animate({ left: "0" }, 500, () =>
+		window.element.css("display", "block").animate({ left: "0" }, 500, () =>
 		{
-			transportWaysAnimDone = true;
+			window.isAnimDone = true;
+			$("#transport-ways-toggler").text("close");
 		});
+		window.isOpened = true;
+	}
+};
+
+/**
+ * Toggle the favorite drawer.
+ */
+export const toggleFavoriteDrawer = (window: TransportWindow): void =>
+{
+	if (!window.isAnimDone)
+		return;
+
+	window.isAnimDone = false;
+	if (window.element.css("display") === "none")
+	{
+		$("#favorite-drawer-toggler").children().text("close");
+		window.element.css("display", "block").animate({ left: "25vw" }, 500, () => 
+		{
+			tagFavorite.render();
+			window.isAnimDone = true;
+		});
+		window.isOpened = true;
+	}
+	else
+	{
+		window.element.animate({ left: "100%" }, 500, () =>
+		{
+			window.isAnimDone = true;
+			$("#favorite-drawer-toggler").children().text("star");
+			window.element.css("display", "none");
+		});
+		window.isOpened = false;
 	}
 };

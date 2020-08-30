@@ -84,8 +84,7 @@ body {
 		position: sticky;
 		height: 3em;
 		z-index: 800;
-		// background-color: transparentize($color: whitesmoke, $amount: 0.2);
-		background: linear-gradient(-45deg, #ee765265, #e73c7e4f, #23a5d53b, #23d5ab34);
+		background: linear-gradient(-45deg, #ee76529c, #e73c7ead, #23a5d5a6, #23d5abb2);
 		background-size: 400% 400%;
 		animation: gradient 15s ease infinite;
 	}
@@ -117,28 +116,28 @@ body {
 		height: 100%;
 	}
 
-	#{&}-icon-proximo, #{&}-icon-flexo, #{&}-icon-chrono, #{&}-icon-tram {
-		cursor: pointer;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		font-weight: bold;
-		font-size: 1.2em;
-		border-radius: 0.3em;
-		width: 1.5em;
-		height: 1.5em;
-		margin: 2px;
-		user-select: none;
-		opacity: 0.4;
-	}
-
-	#{&}-icon-tram, #{&}-icon-chrono {
-		border-radius: 100%;
-	}
-
 	.active {
 		opacity: 1;
 	}
+}
+
+.transport-icon-proximo, .transport-icon-flexo, .transport-icon-chrono, .transport-icon-tram {
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-weight: bold;
+	font-size: 1.2em;
+	border-radius: 0.3em;
+	width: 1.5em;
+	height: 1.5em;
+	margin: 2px;
+	user-select: none;
+	opacity: 0.4;
+}
+
+.transport-icon-tram, .transport-icon-chrono {
+	border-radius: 100%;
 }
 
 .routeinfo {
@@ -148,7 +147,7 @@ body {
 		border-top-right-radius: 12px;
 		
 		h3 {
-			padding: 0.8em;
+			padding: 1.2em;
 			margin: 0;
 		}
 	}
@@ -159,6 +158,95 @@ body {
 	}
 
 	#{&}-section {
+		margin: 0.4em;
+		border: solid 4px gainsboro;
+		border-radius: 12px;
+
+		h5 {
+			margin: 0;
+			font-size: 1.2em;
+			padding: 0.2em;
+		}
+
+		p {
+			margin: 0;
+			font-weight: bold;
+		}
+	}
+
+	#{&}-favorite {
+		cursor: pointer;
+		position: absolute;
+		top: 0;
+		left: 0;
+		padding: 0;
+		border-radius: 5em;
+		text-align: center;
+		font-size: 2em;
+		font-weight: bold;
+		width: 1.2em;
+		height: 1.2em;
+		filter: invert(100%);
+	}
+}
+
+.favorite {
+	#{&}-drawer {
+		display: none;
+		position: absolute;
+		top: 25vh;
+		left: 100%;
+		right: 0;
+		width: 75vw;
+		height: 75vh;
+		z-index: 1300;
+	}
+
+	#{&}-drawer-header {
+		position: absolute;
+		width: 75vw;
+		height: 3em;
+		background: linear-gradient(-45deg, #ee76529c, #e73c7ead, #23a5d5a6, #23d5abb2);
+		background-size: 400% 400%;
+		animation: gradient 15s ease infinite;
+		z-index: 1300;
+	}
+
+	#{&}-drawer-toggler {
+		position: absolute;
+		margin: 2px;
+		top: 25vh;
+		right: 0;
+		color: black;
+		font-size: 1.5em;
+		width: 1.8em;
+		height: 1.8em;
+		z-index: 1300;
+		color: black;
+		background-color: transparentize($color: whitesmoke, $amount: 0.2);
+
+		&:active, &:hover, &:focus {
+			background-color: transparentize($color: whitesmoke, $amount: 0.2) !important;
+			color: black !important;
+		}
+	}
+
+	#{&}-container {
+		overflow: auto;
+		list-style: none;
+		position: absolute;
+		width: 100%;
+		background-color: transparentize($color: whitesmoke, $amount: 0.1);
+		margin-top: 3em;
+		height: calc(75vh - 3em);
+		flex-direction: column;
+
+		@include media(tablet_mobile, portrait) {
+			flex-direction: row;
+		}
+	}
+
+	.routeinfo-section {
 		margin: 0.4em;
 		border: solid 4px gainsboro;
 		border-radius: 12px;

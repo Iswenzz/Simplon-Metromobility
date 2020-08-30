@@ -2,7 +2,7 @@ import * as $ from "jquery";
 import { Marker, MapboxGeoJSONFeature, Popup, MapSourceDataEvent } from "mapbox-gl";
 import { FeatureCollection, Feature, Point } from "geojson";
 import { RouteProperties, Route, RouteStopTimes, RouteTime } from "mobility";
-import { glMap, tagLines } from "./transport";
+import { glMap, tagLines, tagFavorite } from "./transport";
 import { createLoaderAnim, formatRealtimeDate } from ".";
 
 export interface MarkerClickArgs
@@ -118,8 +118,10 @@ export class TagStops
 	private onMarkerClick(e: JQuery.ClickEvent<HTMLDivElement, MarkerClickArgs, 
 	HTMLDivElement, HTMLDivElement>): void
 	{
-		const container = $<HTMLElement>((e.data.popup as any)._content.lastElementChild.lastElementChild);
+		const content = $<HTMLElement>((e.data.popup as any)._content).children(".routeinfo");
+		const container: JQuery<HTMLElement> = content.children(".routeinfo-container");
 		const loaderElem: JQuery<HTMLDivElement> = createLoaderAnim();
+
 		// clear previous data
 		container.html("");
 		container.append(loaderElem);
@@ -130,6 +132,19 @@ export class TagStops
 		const color: string = "#" + route?.color ?? "black";
 		const textColor: string = "#" + route?.textColor ?? "black";
 
+		// append favorite button
+		const favoriteButton = $<HTMLAnchorElement>(`
+			<a class="routeinfo-favorite routeinfo-favorite-${e.data.feature.properties.id.replace(":", "")}" 
+			style="color: ${color}">
+				<span class="material-icons">
+					${tagFavorite.isFavorite(e.data.feature.properties.id) ? "star" : "star_border"}
+				</span>
+			</a>
+		`);
+		favoriteButton.click(tagFavorite.toggle.bind(tagFavorite, e.data.feature));
+		content.append(favoriteButton);
+
+		// request stop times
 		$.ajax({
 			url: `https://data.mobilites-m.fr/api/routers/default/index/stops/${e.data.feature.properties.id}/stoptimes`,
 			type: "GET",
@@ -158,7 +173,6 @@ export class TagStops
 			for (const stop of stoptimes)
 			{
 				const times: RouteTime[] = stop.times.splice(0, 3);
-				console.log(times);
 				const elem = $<HTMLElement>(`
 					<section class="routeinfo-section" style="border-color: ${color}; display: none">
 						<div class="transport-icon-${route.type.toLowerCase()} marker" 
