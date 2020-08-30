@@ -38,8 +38,6 @@ export class TagStops
 			"id": "routestops",
 			"type": "fill",
 			"source": "routestops",
-			// "minzoom": 14,
-			// "maxzoom": 20,
 			"layout": {},
 			"paint": {},
 		});
@@ -60,6 +58,18 @@ export class TagStops
 	{
 		const newMarkers: Marker[] = [];
 		const features: MapboxGeoJSONFeature[] = glMap.querySourceFeatures("routestops");
+
+		// hide all markers if the map zoom is less than 14
+		if (glMap.getZoom() < 14)
+		{
+			if (Object.values(this.glMarkersOnScreen).length)
+			{
+				for (const id in this.glMarkersOnScreen)
+					this.glMarkersOnScreen[id].remove();
+				this.glMarkersOnScreen = [];
+			}
+			return;
+		}
 
 		// create an HTML marker if it's not there already
 		for (const point of features)
@@ -130,11 +140,17 @@ export class TagStops
 			loaderElem.fadeOut("normal", () => loaderElem.remove());
 			container.html("");
 
-			console.log(stoptimes);
+			// if stoptimes is empty
+			if (!stoptimes.length)
+			{
+				// TODO
+			}
+
 			// render realtime stops' infos
 			for (const stop of stoptimes)
 			{
 				const times: RouteTime[] = stop.times.splice(0, 3);
+				console.log(times);
 				const elem = $<HTMLElement>(`
 					<section class="routeinfo-section" style="border-color: ${color}; display: none">
 						<div class="transport-icon-${route.type.toLowerCase()} marker" 
