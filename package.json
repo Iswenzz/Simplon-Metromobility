@@ -25,13 +25,11 @@
     "@types/jquery": "^3.5.1",
     "@types/mapbox-gl": "^1.11.2",
     "@types/slick-carousel": "^1.6.34",
-    "animate.css": "^4.1.0",
     "autocompleter": "^6.0.3",
     "fork-ts-checker-webpack-plugin": "^5.0.12",
     "jquery": "^3.5.1",
     "mapbox-gl": "^1.12.0",
     "normalize.css": "^8.0.1",
-    "progressbar.js": "^1.1.0",
     "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
