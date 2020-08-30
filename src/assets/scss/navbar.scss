@@ -17,15 +17,11 @@
 	}
 
 	#{&}-content {
-		display: block;
-
 		ul {
 			list-style: none;
 		}
 
 		@include media(tablet_mobile, portrait) {
-			display: none;
-
 			ul {
 				flex-direction: column;
 
@@ -45,13 +41,8 @@
 	}
 
 	#{&}-toggler {
-		display: none !important;
 		width: 3em;
 		height: 3em;
-
-		@include media(tablet_mobile, portrait) {
-			display: block !important;
-		}
 	}
 
 	#{&}-toggler-close {
