@@ -143,7 +143,15 @@ export class TagStops
 			// if stoptimes is empty
 			if (!stoptimes.length)
 			{
-				// TODO
+				const error = $<HTMLElement>(`
+					<section class="d-flex justify-content-center material-icons" 
+					style="font-size: 2em; display: none; color: ${color}">
+						error
+					</section>
+				`);
+				container.append(error);
+				error.fadeIn("normal");
+				return;
 			}
 
 			// render realtime stops' infos
