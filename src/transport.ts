@@ -12,7 +12,7 @@ export let tagStops: TagStops = null;
 export let tagLines: TagLines = null;
 
 export let transportWaysAnimDone = true;
-export const transportWays = $<HTMLElement>("#transport-ways");
+export const transportWays = $<HTMLElement>("#transport-ways, #transport-ways header");
 
 $(document).ready(async () =>
 {
@@ -38,7 +38,7 @@ $(document).ready(async () =>
 	}).done((data: Route[]) =>
 	{
 		tagLines = new TagLines(data);
-		const aside = $<HTMLElement>("#transport-ways");
+		const aside = $<HTMLElement>("#transport-ways-container");
 
 		for (const type of tagLines.types)
 			aside.append(tagLines.getTransportRoutes(type));

@@ -58,18 +58,36 @@ body {
 
 	#{&}-ways {
 		background-color: transparentize($color: whitesmoke, $amount: 0.1);
-		overflow-y: auto;
 		position: fixed;
 		top: 25vh;
 		left: 0;
 		width: 25%;
-		height: 100%;
-		padding-top: 3em;
+		height: 75vh;
 		z-index: 800;
 
 		h2 {
 			font-size: 1.5em;
 		}
+
+		@include media(tablet_mobile, portrait) {
+			width: 70%;
+		}
+	}
+
+	#{&}-ways-container {
+		overflow-y: auto;
+		height: calc(75vh - 3em);
+		padding: 0 1em;
+	}
+
+	#{&}-ways-header {
+		position: sticky;
+		height: 3em;
+		z-index: 800;
+		// background-color: transparentize($color: whitesmoke, $amount: 0.2);
+		background: linear-gradient(-45deg, #ee765265, #e73c7e4f, #23a5d53b, #23d5ab34);
+		background-size: 400% 400%;
+		animation: gradient 15s ease infinite;
 	}
 
 	#{&}-ways-toggler {
@@ -78,10 +96,10 @@ body {
 		position: fixed;
 		top: 25vh;
 		left: 0;
-		margin: 0.5em;
+		margin-top: 2px;
 		font-size: 1.5em;
-		width: 2em;
-		height: 2em;
+		width: 1.8em;
+		height: 1.8em;
 		z-index: 900;
 
 		&:active, &:hover, &:focus {
@@ -198,6 +216,20 @@ body {
 	border-radius: 12px;
 	padding: 0;
 	margin: 0;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	
+	50% {
+		background-position: 100% 50%;
+	}
+
+	100% {
+		background-position: 0% 50%;
+	}
 }
 
 // mapbox gl
