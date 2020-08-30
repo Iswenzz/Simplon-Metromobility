@@ -11,8 +11,14 @@ export let glMap: Map = null;
 export let tagStops: TagStops = null;
 export let tagLines: TagLines = null;
 
+export let transportWaysAnimDone = true;
+export const transportWays = $<HTMLElement>("#transport-ways");
+
 $(document).ready(async () =>
 {
+	// initialize map buttons events
+	$<HTMLButtonElement>("#transport-ways-toggler").click(toggleRouteDrawer);
+
 	// initialize gl map canvas
 	glMap = new Map({
 		container: "transport-map",
@@ -54,3 +60,28 @@ $(document).ready(async () =>
 		console.log(error);
 	});
 });
+
+/**
+ * Toggle the route drawer.
+ */
+export const toggleRouteDrawer = (): void =>
+{
+	if (!transportWaysAnimDone)
+		return;
+	transportWaysAnimDone = false;
+	if (transportWays.css("display") === "block")
+	{
+		transportWays.animate({ left: "-100%" }, 500, () => 
+		{
+			transportWays.css("display", "none");
+			transportWaysAnimDone = true;
+		});
+	}
+	else
+	{
+		transportWays.css("display", "block").animate({ left: "0" }, 500, () =>
+		{
+			transportWaysAnimDone = true;
+		});
+	}
+};

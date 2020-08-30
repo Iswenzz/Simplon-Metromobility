@@ -279,7 +279,8 @@ $layout: ("center", "flex-start", "flex-end", "space-between", "space-around", "
 	outline: none;
 	text-decoration: none;
 	text-align: center;
-	transition: all 0.15s ease-in-out;
+	transition: background-color 0.15s ease-in-out;
+	transition-property: background-color border-color color box-shadow filter;
 	box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .15);
 
 	&:active, &:hover, &:focus {
