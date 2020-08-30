@@ -53,7 +53,9 @@ declare module "mobility"
 	export interface RouteTypeAlias
 	{
 		type: RouteType,
-		name: string
+		name: string,
+		mode: string,
+		icon: string
 	}
 
 	export interface Route

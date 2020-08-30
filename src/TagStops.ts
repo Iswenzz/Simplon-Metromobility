@@ -140,7 +140,7 @@ export class TagStops
 			loaderElem.fadeOut("normal", () => loaderElem.remove());
 			container.html("");
 
-			// if stoptimes is empty
+			// show error icon if stoptimes is empty
 			if (!stoptimes.length)
 			{
 				const error = $<HTMLElement>(`

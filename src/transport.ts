@@ -33,7 +33,7 @@ $(document).ready(async () =>
 		tagLines = new TagLines(data);
 		const aside = $<HTMLElement>("#transport-ways");
 
-		for (const { type } of tagLines.types)
+		for (const type of tagLines.types)
 			aside.append(tagLines.getTransportRoutes(type));
 	}).fail((error: JQuery.jqXHR) => 
 	{

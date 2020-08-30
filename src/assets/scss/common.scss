@@ -46,6 +46,10 @@ ul {
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Metrophobic&display=swap");
 
+.material-icons {
+	user-select: none !important;
+}
+
 // responsive queries
 $queries: (
 	desktop: "min-width: 1224px",

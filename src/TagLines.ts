@@ -1,6 +1,6 @@
 import * as $ from "jquery";
 import { FeatureCollection, LineString } from "geojson";
-import { Route, RouteType, RouteTypeAlias } from "mobility";
+import { Route, RouteTypeAlias } from "mobility";
 import { glMap } from "./transport";
 
 /**
@@ -12,10 +12,10 @@ export class TagLines
 
 	public routes: Route[] = [];
 	public types: RouteTypeAlias[] = [
-		{ type: "TRAM", name: "Tram" },
-		{ type: "CHRONO", name: "Chrono" },
-		{ type: "FLEXO", name: "Flexo" },
-		{ type: "PROXIMO", name: "Proximo" }
+		{ type: "TRAM", name: "Tram", mode: "TRAM", icon: "tram" },
+		{ type: "CHRONO", name: "Chrono", mode: "BUS", icon: "directions_bus" },
+		{ type: "FLEXO", name: "Flexo", mode: "BUS", icon: "directions_bus" },
+		{ type: "PROXIMO", name: "Proximo", mode: "BUS", icon: "directions_bus" }
 	];
 
 	/**
@@ -30,19 +30,29 @@ export class TagLines
 	/**
 	 * Get all transport routes from a specific type.
 	 * @param data - The routes JSON.
-	 * @param type - The route type.
+	 * @param routeType - The route type.
 	 */
-	public getTransportRoutes(type: RouteType): JQuery<HTMLElement>
+	public getTransportRoutes(routeType: RouteTypeAlias): JQuery<HTMLElement>
 	{
-		const dataFiltered: Route[] = this.routes.filter(w => w.type === type);
+		const dataFiltered: Route[] = this.routes.filter(w => w.type === routeType.type);
 		const section = $<HTMLElement>("<section></section>");
-		const header = $<HTMLHeadingElement>(`<h2>${type}</h2>`);
+		const header = $<HTMLHeadingElement>(`
+			<h2>
+				<span class="material-icons">${routeType.icon}</span>
+				${routeType.name.toUpperCase()}
+			</h2>
+		`);
 		const list = $<HTMLUListElement>("<ul class=\"d-flex justify-content-center\"></ul>");
-		const classType: string = type.replace(/[^a-zA-Z]+/g, "").toLowerCase();
+		const classType: string = routeType.type.replace(/[^a-zA-Z]+/g, "").toLowerCase();
 
 		for (const w of dataFiltered)
 		{
-			const entry = $<HTMLLIElement>(`<li data-id="${w.id}" data-name="${w.shortName}" data-color="${"#" + w.color}" data-gtfsId="${w.gtfsId}" class="transport-icon-${classType}">${w.shortName}</li>`);
+			const entry = $<HTMLLIElement>(`
+				<li data-id="${w.id}" data-name="${w.shortName}" data-color="${"#" + w.color}" 
+				data-gtfsId="${w.gtfsId}" class="transport-icon-${classType}">
+					${w.shortName}
+				</li>
+			`);
 			entry.css({
 				"background-color": "#" + w.color,
 				"color": "#" + w.textColor
