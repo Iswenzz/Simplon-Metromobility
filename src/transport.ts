@@ -25,7 +25,7 @@ $(document).ready(async () =>
 		(e: Error) => e ? console.log(e) : null);
 
 	// initialize TAG's lines
-	$.ajax({
+	await $.ajax({
 		url: "https://data.metromobilite.fr/api/routers/default/index/routes",
 		type: "GET",
 		dataType: "json",
@@ -42,7 +42,7 @@ $(document).ready(async () =>
 	});
 
 	// initialize TAG's stops
-	$.ajax({
+	await $.ajax({
 		url: "https://data.metromobilite.fr/api/bbox/json?&types=pointArret",
 		type: "GET",
 		dataType: "json",
