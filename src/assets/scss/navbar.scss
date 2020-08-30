@@ -3,6 +3,11 @@
 .navbar {
 	z-index: 1000;
 	background-color: transparent;
+	max-height: 6em;
+
+	@include media(tablet_mobile, portrait) {
+		position: relative;
+	}
 
 	#{&}-brand {
 		img {

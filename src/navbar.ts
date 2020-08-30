@@ -1,16 +1,11 @@
 import * as $ from "jquery";
+import "./assets/scss/navbar.scss";
 
 $(document).ready(() =>
 {
 	const navbarToggler = $<HTMLButtonElement>("#navbar-toggler");
 	const navbarTogglerClose = $<HTMLButtonElement>("#navbar-toggler-close");
 	const navbarModal = $<HTMLElement>(navbarToggler.attr("data-target"));
-
-	$<HTMLUListElement>("#index-carousel").slick({
-		dots: true,
-		autoplay: true,
-		autoplaySpeed: 10 * 1000
-	});
 
 	navbarToggler.click(() =>
 	{

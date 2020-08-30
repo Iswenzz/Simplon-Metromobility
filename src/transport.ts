@@ -1,8 +1,9 @@
 import * as $ from "jquery";
+import "./navbar";
 import "./assets/scss/transport.scss";
 import { Route, RouteProperties } from "mobility";
 import { Point, FeatureCollection } from "geojson";
-import { setRTLTextPlugin, Map, Popup } from "mapbox-gl";
+import { setRTLTextPlugin, Map } from "mapbox-gl";
 import { TagStops } from "./TagStops";
 import { TagLines } from "./TagLines";
 

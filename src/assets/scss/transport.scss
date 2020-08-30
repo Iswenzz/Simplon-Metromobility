@@ -6,8 +6,10 @@ body {
 }
 
 .navbar {
+	position: static !important;
 	display: flex;
 	height: 25vh;
+	max-height: 25vh !important;
 	flex-direction: column;
 	justify-content: space-between;
 	

@@ -6,9 +6,12 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
 	mode: "development",
-	entry: "./src/index.ts",
+	entry: {	
+		index: ["./src/index.ts"],
+		transport: ["./src/transport.ts"],
+	},
 	output: {
-		filename: "main.js",
+		filename: "[name].js",
 		path: path.resolve(__dirname, "dist"),
 	},
 	resolve: {
@@ -18,9 +21,13 @@ module.exports = {
 		new CleanWebpackPlugin({
 			cleanStaleWebpackAssets: false,
 		}),
-		new MiniCssExtractPlugin(),
+		new MiniCssExtractPlugin({
+			filename: "[name].css"
+		}),
 		...["index", "transport"].map(html => new HtmlWebpackPlugin({
 			filename: `${html}.html`,
+			chunks: [html],
+			inject: true,
 			template: `public/${html}.html`,
 			minify: {
 				collapseWhitespace: true,
