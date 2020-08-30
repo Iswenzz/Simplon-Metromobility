@@ -413,6 +413,31 @@ body {
 	border-radius: 10px;
 }
 
+// about slide
+.aboutslide {
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	width: 100vw;
+	height: 20%;
+	z-index: 9000;
+	// background-color: rgba(53, 154, 248, 0.836);
+	color: whitesmoke;
+
+	section {
+		background-color: rgba(53, 154, 248, 0.836);
+		padding: 0 10%;
+	}
+
+	button {
+		position: relative;
+		top: 1em;
+		@include btn-gradient(true, 90deg, $primary, $primary 0%, darken($primary, 20%));
+	}
+}
+
 // AnimateCSS
 @import "../../../node_modules/animate.css/animate.min.css";
 @import "./spinner";

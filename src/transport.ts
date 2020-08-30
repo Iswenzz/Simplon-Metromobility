@@ -7,11 +7,20 @@ import { setRTLTextPlugin, Map } from "mapbox-gl";
 import { TagStops } from "./TagStops";
 import { TagLines } from "./TagLines";
 import { TagFavorite } from "./TagFavorite";
+import { AboutSlide } from "./AboutSlide";
 
 export let glMap: Map = null;
 export let tagStops: TagStops = null;
 export let tagLines: TagLines = null;
 export const tagFavorite: TagFavorite = new TagFavorite($<HTMLElement>("#favorite-container"));
+export const covidAboutSlide = new AboutSlide("Votre santé : notre priorité", 
+	`Afin d'assurer une reprise de vos déplacements en toute sérénité et dans les meilleures conditions sanitaires, 
+	le réseau TAG mobilise ses équipes et ses moyens.
+	
+	Des mesures de prévention sont déployées dans les transports en commun.
+`, "aboutslide");
+
+// setInterval(covidAboutSlide.show.bind(covidAboutSlide), 1000 * 60 * 5); // TP but meh :D
 
 export interface TransportWindow
 {
@@ -41,10 +50,12 @@ export const windows = {
 
 $(document).ready(async () =>
 {
-	// load favorite
+	// show about slide
+	covidAboutSlide.toggle();
+	// load favorites
 	tagFavorite.load();
 
-	// initialize map buttons events
+	// map buttons events
 	$<HTMLButtonElement>("#transport-ways-toggler").click(toggleWindow.bind(windows, windows["ways"]));
 	$<HTMLButtonElement>("#favorite-drawer-toggler").click(toggleWindow.bind(windows, windows["favorite"]));
 
