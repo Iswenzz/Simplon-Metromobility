@@ -21,8 +21,8 @@ $(document).ready(() =>
  */
 export const openModal = (): void =>
 {
-	navbarToggler.slideUp(() => navbarToggler.css("visibility", "hidden").css("display", "none"));
-	navbarTogglerClose.slideDown(() => navbarTogglerClose.css("visibility", "visible").css("display", "block"));
+	navbarToggler.slideUp(() => navbarToggler.css("display", "none"));
+	navbarTogglerClose.slideDown(() => navbarTogglerClose.css("display", "block"));
 	navbarModal.addClass("active");
 	navbarModal.fadeIn();
 	$("html, body").css("overflow-y", "hidden");
@@ -33,8 +33,8 @@ export const openModal = (): void =>
  */
 export const closeModal = (): void =>
 {
-	navbarTogglerClose.slideUp(() => navbarTogglerClose.css("visibility", "hidden").css("display", "none"));
-	navbarToggler.slideDown(() => navbarToggler.css("visibility", "visible").css("display", "block"));
+	navbarTogglerClose.slideUp(() => navbarTogglerClose.css("display", "none"));
+	navbarToggler.slideDown(() => navbarToggler.css("display", "block"));
 	navbarModal.fadeOut(() => navbarModal.removeClass("active"));
 	$("html, body").css("overflow-y", "auto");
 };
@@ -57,5 +57,6 @@ export const updateResponsive = (): void =>
 		navbarModal.css("display", "block");
 		navbarToggler.css("display", "none");
 		navbarTogglerClose.css("display", "none");
+		navbarModal.removeClass("active");
 	}
 };

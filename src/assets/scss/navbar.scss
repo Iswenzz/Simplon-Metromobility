@@ -21,7 +21,7 @@
 			list-style: none;
 		}
 
-		@include media(tablet_mobile, portrait) {
+		@include media(tablet_mobile, portrait, "max-width: 1050px") {
 			ul {
 				flex-direction: column;
 
@@ -41,6 +41,7 @@
 	}
 
 	#{&}-toggler {
+		display: none;
 		width: 3em;
 		height: 3em;
 	}
@@ -64,7 +65,7 @@
 		right: 0;
 		width: 100vw;
 		height: 100vh;
-		background-color: rgba($color: rgb(0, 26, 56), $alpha: 0.5);
+		background-color: rgba($color: rgb(0, 26, 56), $alpha: 0.9);
 	}
 }
 
