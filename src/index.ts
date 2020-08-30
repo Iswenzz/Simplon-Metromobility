@@ -32,7 +32,7 @@ export const formatRealtimeDate = (seconds: number): string =>
 
 	// substract the next stop date by the current date minus 1 hour
 	const eta: Date = new Date(date.getTime() - Date.now() - (3600 * 1000));
-	if (eta.getHours() >= 1)
+	if (eta.getHours() > 1)
 		return `${date.getHours()}:${date.getMinutes()}`;
 	else if (eta.getMinutes() < 1)
 		return "<1min";
