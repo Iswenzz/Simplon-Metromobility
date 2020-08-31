@@ -1,5 +1,6 @@
 @import "./common";
 @import "./navbar";
+@import "../../../node_modules/mapbox-gl/dist/mapbox-gl.css";
 
 body {
 	height: 100vh;
@@ -319,6 +320,3 @@ body {
 		background-position: 0% 50%;
 	}
 }
-
-// mapbox gl
-@import "../../../node_modules/mapbox-gl/dist/mapbox-gl.css";

@@ -1,0 +1,48 @@
+// colors
+$primary: royalblue !default;
+$secondary: gray !default;
+$danger: indigo !default;
+$warning: orangered !default;
+$info: crimson !default;
+$verbose: greenyellow !default;
+$light: whitesmoke !default;
+$dark: dimgray !default;
+$transparent: transparent !default;
+
+$colors: (
+	primary: $primary,
+	secondary: $secondary,
+	danger: $danger,
+	warning: $warning,
+	info: $info,
+	verbose: $verbose,
+	light: $light,
+	dark: $dark,
+	alpha: $transparent
+) !default;
+
+// responsive queries
+$queries: (
+	desktop: "min-width: 1224px",
+	tablet_mobile: "max-device-width: 1224px",
+	portrait: "orientation: portrait",
+	retina: "min-resolution: 2dppx",
+	big: "min-device-width: 1824px"
+) !default;
+
+$sizes: (0, 25, 33.33, 50, 66.66, 75, 100) !default;
+$spacer: 1rem !default;
+$spacers: (
+	0: 0,
+	1: $spacer * .25,
+	2: $spacer * .5,
+	3: $spacer * 1,
+	4: $spacer * 1.5,
+	5: $spacer * 3,
+	auto: auto
+) !default;
+
+$layout: ("center", "flex-start", "flex-end", "space-between", "space-around", "space-evenly", "start", "end", "normal", "stretch", "left", "right") !default;
+
+$scrollbar-bg: #292929 !default;
+$thumb-bg: #383838 !default;

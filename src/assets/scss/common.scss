@@ -1,36 +1,10 @@
-$primary: royalblue !default;
-$secondary: gray !default;
-$danger: indigo !default;
-$warning: orangered !default;
-$info: crimson !default;
-$verbose: greenyellow !default;
-$light: whitesmoke !default;
-$dark: dimgray !default;
-$transparent: transparent !default;
-
-$colors: (
-	primary: $primary,
-	secondary: $secondary,
-	danger: $danger,
-	warning: $warning,
-	info: $info,
-	verbose: $verbose,
-	light: $light,
-	dark: $dark,
-	alpha: $transparent
-) !default;
-
-// gradient
-@mixin gradient($isLinear, $degree, $colors...) {
-	@if $isLinear {
-		background: linear-gradient($degree, $colors);
-	} @else {
-		background: radial-gradient($degree, $colors);
-	}
-}
-
-// normalize
-@import "../../../node_modules/normalize.css/normalize.css";
+@import "./mixins";
+@import "./variables";
+// material design & montserrat & metrophobic fonts
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Metrophobic&display=swap");
+// SK Cube Spinner
+@import "./spinner";
 
 * {
 	box-sizing: border-box;
@@ -42,35 +16,8 @@ ul {
 	margin: 0;
 }
 
-// material design & montserrat & metrophobic fonts
-@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Metrophobic&display=swap");
-
 .material-icons {
 	user-select: none !important;
-}
-
-// responsive queries
-$queries: (
-	desktop: "min-width: 1224px",
-	tablet_mobile: "max-device-width: 1224px",
-	portrait: "orientation: portrait",
-	retina: "min-resolution: 2dppx",
-	big: "min-device-width: 1824px"
-) !default;
-
-@mixin media($keys...) {
-	@each $key in $keys {
-		@if map-get($queries, $key) {
-			@media (map-get($queries, $key)) {
-				@content;
-			}
-		} @else {
-			@media ($key) {
-				@content;
-			}
-		}
-	}
 }
 
 // position
@@ -95,7 +42,6 @@ $queries: (
 }
 
 // sizes
-$sizes: (0, 25, 33.33, 50, 66.66, 75, 100) !default;
 @each $size in $sizes {
 	.w-#{round($size)} {
 		width: percentage($size / 100);
@@ -138,17 +84,6 @@ $sizes: (0, 25, 33.33, 50, 66.66, 75, 100) !default;
 }
 
 // spacing
-$spacer: 1rem !default;
-$spacers: (
-	0: 0,
-	1: $spacer * .25,
-	2: $spacer * .5,
-	3: $spacer * 1,
-	4: $spacer * 1.5,
-	5: $spacer * 3,
-	auto: auto
-) !default;
-
 @each $k, $v in $spacers {
 	.mx-#{$k} {
 		margin-left: $v;
@@ -246,7 +181,6 @@ $spacers: (
 }
 
 // justify
-$layout: ("center", "flex-start", "flex-end", "space-between", "space-around", "space-evenly", "start", "end", "normal", "stretch", "left", "right") !default;
 @each $pos in $layout {
 	.justify-items-#{$pos} {
 		justify-items: #{$pos};
@@ -265,66 +199,6 @@ $layout: ("center", "flex-start", "flex-end", "space-between", "space-around", "
 	}
 	.align-self-#{$pos} {
 		align-self: #{$pos};
-	}
-}
-
-// buttons
-@mixin btn($color) {
-	cursor: pointer;
-	display: block;
-	color: whitesmoke;
-	background-color: $color;
-	border: 2px solid $color;
-	border-radius: 3em;
-	outline: none;
-	text-decoration: none;
-	text-align: center;
-	transition: background-color 0.15s ease-in-out;
-	transition-property: background-color border-color color box-shadow filter;
-	box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .15);
-
-	&:active, &:hover, &:focus {
-		outline: none;
-		background-color: whitesmoke;
-		border-color: $color;
-		color: $color;
-	}
-}
-
-@mixin btn-link($color) {
-	@include btn(transparent);
-	color: dimgray;
-	box-shadow: none;
-
-	&:active, &:hover, &:focus {
-		background-color: transparent;
-		border-color: transparent;
-		color: $color;
-		box-shadow: none;
-	}
-}
-
-@mixin btn-outline($color) {
-	@include btn($color);
-	background-color: transparent;
-	color: $color;
-
-	&:active, &:hover, &:focus {
-		background-color: $color;
-		border-color: $color;
-		color: whitesmoke;
-	}
-}
-
-@mixin btn-gradient($isLinear, $degree, $bordercolor, $colors...) {
-	@include btn(whitesmoke);
-	@include gradient($isLinear, $degree, $colors...);
-	transition: filter 0.5s ease-in-out !important;
-	border-color: $bordercolor;
-
-	&:active, &:hover, &:focus {
-		border-color: $bordercolor;
-		filter: saturate(200%) brightness(150%);
 	}
 }
 
@@ -365,9 +239,6 @@ $layout: ("center", "flex-start", "flex-end", "space-between", "space-around", "
 }
 
 // default font & text/bg colors
-$scrollbar-bg: #292929 !default;
-$thumb-bg: #383838 !default;
-
 html, body {
 	overflow-x: hidden;
 }
@@ -375,6 +246,7 @@ html, body {
 body {
 	background-color: whitesmoke;
 	color: black;
+	// font-family: "Press Start 2P", cursive;
 	font-family: "Metrophobic", sans-serif;
 	scrollbar-width: thin;
 	// scrollbar-color: $thumb-bg $scrollbar-bg;
@@ -437,6 +309,3 @@ body {
 		@include btn-gradient(true, 90deg, $primary, $primary 0%, darken($primary, 20%));
 	}
 }
-
-// SK Cube Spinner
-@import "./spinner";

@@ -1,0 +1,83 @@
+// responsive queries
+@mixin media($keys...) {
+	@each $key in $keys {
+		@if map-get($queries, $key) {
+			@media (map-get($queries, $key)) {
+				@content;
+			}
+		} @else {
+			@media ($key) {
+				@content;
+			}
+		}
+	}
+}
+
+// gradient
+@mixin gradient($isLinear, $degree, $colors...) {
+	@if $isLinear {
+		background: linear-gradient($degree, $colors);
+	} @else {
+		background: radial-gradient($degree, $colors);
+	}
+}
+
+// buttons
+@mixin btn($color) {
+	cursor: pointer;
+	display: block;
+	color: whitesmoke;
+	background-color: $color;
+	border: 2px solid $color;
+	border-radius: 3em;
+	outline: none;
+	text-decoration: none;
+	text-align: center;
+	transition: background-color 0.15s ease-in-out;
+	transition-property: background-color border-color color box-shadow filter;
+	box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .15);
+
+	&:active, &:hover, &:focus {
+		outline: none;
+		background-color: whitesmoke;
+		border-color: $color;
+		color: $color;
+	}
+}
+
+@mixin btn-link($color) {
+	@include btn(transparent);
+	color: dimgray;
+	box-shadow: none;
+
+	&:active, &:hover, &:focus {
+		background-color: transparent;
+		border-color: transparent;
+		color: $color;
+		box-shadow: none;
+	}
+}
+
+@mixin btn-outline($color) {
+	@include btn($color);
+	background-color: transparent;
+	color: $color;
+
+	&:active, &:hover, &:focus {
+		background-color: $color;
+		border-color: $color;
+		color: whitesmoke;
+	}
+}
+
+@mixin btn-gradient($isLinear, $degree, $bordercolor, $colors...) {
+	@include btn(whitesmoke);
+	@include gradient($isLinear, $degree, $colors...);
+	transition: filter 0.5s ease-in-out !important;
+	border-color: $bordercolor;
+
+	&:active, &:hover, &:focus {
+		border-color: $bordercolor;
+		filter: saturate(200%) brightness(150%);
+	}
+}
