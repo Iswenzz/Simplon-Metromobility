@@ -8,6 +8,7 @@ import { TagStops } from "./TagStops";
 import { TagLines } from "./TagLines";
 import { TagFavorite } from "./TagFavorite";
 import { AboutSlide } from "./AboutSlide";
+import "normalize.css";
 
 export let glMap: Map = null;
 export let tagStops: TagStops = null;

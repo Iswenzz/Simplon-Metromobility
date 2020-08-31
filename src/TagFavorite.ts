@@ -1,5 +1,5 @@
 import * as $ from "jquery";
-import { createLoaderAnim, formatRealtimeDate } from ".";
+import { createLoaderAnim, formatRealtimeDate } from "./utility";
 import { Route, RouteStopTimes, RouteTime, RouteProperties } from "mobility";
 import { tagLines } from "./transport";
 import { Feature, Point } from "geojson";

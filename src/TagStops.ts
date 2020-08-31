@@ -3,7 +3,7 @@ import { Marker, MapboxGeoJSONFeature, Popup, MapSourceDataEvent } from "mapbox-
 import { FeatureCollection, Feature, Point } from "geojson";
 import { RouteProperties, Route, RouteStopTimes, RouteTime } from "mobility";
 import { glMap, tagLines, tagFavorite } from "./transport";
-import { createLoaderAnim, formatRealtimeDate } from ".";
+import { createLoaderAnim, formatRealtimeDate } from "./utility";
 
 export interface MarkerClickArgs
 {

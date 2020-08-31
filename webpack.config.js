@@ -22,7 +22,8 @@ module.exports = {
 			cleanStaleWebpackAssets: false,
 		}),
 		new MiniCssExtractPlugin({
-			filename: "[name].css"
+			filename: "[name].css",
+			chunkFilename: "[id].css",
 		}),
 		...["index", "transport"].map(html => new HtmlWebpackPlugin({
 			filename: `${html}.html`,
@@ -68,7 +69,7 @@ module.exports = {
 				loader: "html-loader",
 			},
 			{	// css extract & css & sass & postcss loader
-				test: /\.s[ac]ss$/i,
+				test: /\.s[ac]ss|css$/i,
 				use: [
 					{ 
 						loader: MiniCssExtractPlugin.loader,
@@ -80,18 +81,18 @@ module.exports = {
 						}
 					},
 					{
-						loader: "sass-loader", 
-						options: { 
-							sourceMap: true
-						}
-					},
-					{
 						loader: "postcss-loader",
 						options: {
 							sourceMap: true,
 							config: {
 								path: "postcss.config.js"
 							}
+						}
+					},
+					{
+						loader: "sass-loader", 
+						options: {
+							sourceMap: true
 						}
 					}
 				]
