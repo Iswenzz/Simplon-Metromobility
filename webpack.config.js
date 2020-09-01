@@ -4,8 +4,11 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
+const ENV_MODE = process.env.mode || "development";
+
+console.log(`Building in ${ENV_MODE} mode.\n`);
 module.exports = {
-	mode: "development",
+	mode: ENV_MODE,
 	entry: {	
 		index: ["./src/index.ts"],
 		transport: ["./src/transport.ts"],
@@ -19,9 +22,11 @@ module.exports = {
 	},
 	devServer: {
 		contentBase: path.join(__dirname, "dist"),
+		watchContentBase: true,
 		compress: true,
+		transportMode: "ws",
 		port: 3000,
-		hot: true
+		hot: true,
 	},
 	plugins: [
 		new CleanWebpackPlugin({
@@ -78,12 +83,13 @@ module.exports = {
 				test: /\.s[ac]ss|css$/i,
 				use: [
 					{ 
-						loader: MiniCssExtractPlugin.loader,
+						loader: ENV_MODE === "development" 
+							? "style-loader" : MiniCssExtractPlugin.loader,
 					},
 					{
 						loader: "css-loader", 
 						options: {
-							sourceMap: true
+							sourceMap: true,
 						}
 					},
 					{
