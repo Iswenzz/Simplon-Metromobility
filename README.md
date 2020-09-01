@@ -4,11 +4,11 @@
 
 # Metromobility
 Vous devez réaliser un site internet responsive dont l’objectif est de pouvoir consulter les horaires de toutes les lignes des transports en commun de l’agglomération Grenobloise.
-Livrables
 
+## Livrables
 Le projet devra être déposé sur Gitlab et sur Simplonline. Vos prototypes seront joints à votre rendu sur Simplonline. Vous devrez nous donner accès à votre recettage. (Excel dans GIT ou dans Simplonline)
-Contexte du projet
 
+## Contexte du projet
 Vous utiliserez l’API de la métro : https://www.mobilites-m.fr/pages/opendata/OpenDataApi.html
 
 Ce service devra comporter à minima les spécifications suivantes:
