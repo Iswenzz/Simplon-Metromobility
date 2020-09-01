@@ -1,9 +1,5 @@
 @import "./mixins";
 @import "./variables";
-// material design & montserrat & metrophobic fonts
-@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Metrophobic&display=swap");
-// SK Cube Spinner
 @import "./spinner";
 
 * {
@@ -17,6 +13,7 @@ ul {
 }
 
 .material-icons {
+	font-family: "Material Icons";
 	user-select: none !important;
 }
 
@@ -246,7 +243,6 @@ html, body {
 body {
 	background-color: whitesmoke;
 	color: black;
-	// font-family: "Press Start 2P", cursive;
 	font-family: "Metrophobic", sans-serif;
 	scrollbar-width: thin;
 	// scrollbar-color: $thumb-bg $scrollbar-bg;
