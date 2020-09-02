@@ -158,7 +158,7 @@ export const toggleFavoriteDrawer = (window: TransportWindow): void =>
 	if (window.element.css("display") === "none")
 	{
 		$("#favorite-drawer-toggler").children().text("close");
-		window.element.css("display", "block").animate({ left: "25vw" }, 500, () => 
+		window.element.css("display", "block").animate({ right: "0" }, 500, () => 
 		{
 			tagFavorite.render();
 			window.isAnimDone = true;
@@ -167,7 +167,7 @@ export const toggleFavoriteDrawer = (window: TransportWindow): void =>
 	}
 	else
 	{
-		window.element.animate({ left: "100%" }, 500, () =>
+		window.element.animate({ right: "-100%" }, 500, () =>
 		{
 			window.isAnimDone = true;
 			$("#favorite-drawer-toggler").children().text("star");

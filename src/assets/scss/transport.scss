@@ -142,6 +142,8 @@ body {
 }
 
 .routeinfo {
+	position: relative;
+
 	header {
 		text-align: center;
 		border-top-left-radius: 12px;
@@ -196,21 +198,28 @@ body {
 		display: none;
 		position: absolute;
 		top: 25vh;
-		left: 100%;
-		right: 0;
-		width: 75vw;
+		right: -100%;
+		width: 25%;
 		height: 75vh;
 		z-index: 1300;
+
+		@include media(tablet_mobile, portrait) {
+			width: 70%;
+		}
 	}
 
 	#{&}-drawer-header {
 		position: absolute;
-		width: 75vw;
+		width: 100% !important;
 		height: 3em;
 		background: linear-gradient(-45deg, #ee76529c, #e73c7ead, #23a5d5a6, #23d5abb2);
 		background-size: 400% 400%;
 		animation: gradient 15s ease infinite;
 		z-index: 1300;
+
+		@include media(tablet_mobile, portrait) {
+			width: 70%;
+		}
 	}
 
 	#{&}-drawer-toggler {
@@ -240,11 +249,7 @@ body {
 		background-color: transparentize($color: whitesmoke, $amount: 0.1);
 		margin-top: 3em;
 		height: calc(75vh - 3em);
-		flex-direction: column;
-
-		@include media(tablet_mobile, portrait) {
-			flex-direction: row;
-		}
+		justify-content: center;
 	}
 
 	.routeinfo-section {
@@ -285,6 +290,7 @@ body {
 }
 
 .mapboxgl-popup-close-button {
+	z-index: 300;
 	color: white;
 	padding: 0;
 	border-radius: 5em;
