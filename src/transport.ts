@@ -109,7 +109,7 @@ $(document).ready(async () =>
 export const updateLocalisation = (): void =>
 {
 	navigator.geolocation.getCurrentPosition(
-		(position: Position) => glMap.setCenter([position.coords.latitude, position.coords.longitude]));
+		(position: Position) => glMap.setCenter([position.coords.longitude, position.coords.latitude]));
 };
 
 /**
