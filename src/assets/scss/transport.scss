@@ -108,6 +108,24 @@ body {
 		}
 	}
 
+	#{&}-localisation {
+		position: fixed;
+		margin: 2px;
+		bottom: 0;
+		right: 0;
+		font-size: 1.5em;
+		width: 1.8em;
+		height: 1.8em;
+		z-index: 1300;
+		color: black;
+		background-color: transparentize($color: whitesmoke, $amount: 0.2);
+
+		&:active, &:hover, &:focus {
+			background-color: transparentize($color: whitesmoke, $amount: 0.2) !important;
+			color: black !important;
+		}
+	}
+
 	#{&}-map {
 		background-color: transparentize($color: whitesmoke, $amount: 0.2);
 		position: fixed;
@@ -227,7 +245,6 @@ body {
 		margin: 2px;
 		top: 25vh;
 		right: 0;
-		color: black;
 		font-size: 1.5em;
 		width: 1.8em;
 		height: 1.8em;

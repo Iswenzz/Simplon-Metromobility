@@ -55,10 +55,11 @@ $(document).ready(async () =>
 	covidAboutSlide.toggle();
 	// load favorites
 	tagFavorite.load();
-
+	
 	// map buttons events
 	$<HTMLButtonElement>("#transport-ways-toggler").click(toggleWindow.bind(windows, windows["ways"]));
 	$<HTMLButtonElement>("#favorite-drawer-toggler").click(toggleWindow.bind(windows, windows["favorite"]));
+	$<HTMLButtonElement>("#transport-localisation").click(updateLocalisation);
 
 	// initialize gl map canvas
 	glMap = new Map({
@@ -101,6 +102,15 @@ $(document).ready(async () =>
 		console.log(error);
 	});
 });
+
+/**
+ * Set the map center coordinates to the user's location.
+ */
+export const updateLocalisation = (): void =>
+{
+	navigator.geolocation.getCurrentPosition(
+		(position: Position) => glMap.setCenter([position.coords.latitude, position.coords.longitude]));
+};
 
 /**
  * Toggle a specific window.
