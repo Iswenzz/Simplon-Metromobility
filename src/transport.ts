@@ -9,6 +9,7 @@ import { TagLines } from "./TagLines";
 import { TagFavorite } from "./TagFavorite";
 import { AboutSlide } from "./AboutSlide";
 import "normalize.css";
+import { TAG_API_ROUTES, TAG_API_BBOX } from "./config/api";
 
 export let glMap: Map = null;
 export let tagStops: TagStops = null;
@@ -76,7 +77,7 @@ $(document).ready(async () =>
 
 	// initialize TAG's lines
 	await $.ajax({
-		url: "https://data.metromobilite.fr/api/routers/default/index/routes",
+		url: TAG_API_ROUTES(),
 		type: "GET",
 		dataType: "json",
 	}).done((data: Route[]) =>
@@ -93,7 +94,7 @@ $(document).ready(async () =>
 
 	// initialize TAG's stops
 	await $.ajax({
-		url: "https://data.metromobilite.fr/api/bbox/json?&types=pointArret",
+		url: TAG_API_BBOX(),
 		type: "GET",
 		dataType: "json",
 	}).done((geojson: FeatureCollection<Point, RouteProperties>) =>

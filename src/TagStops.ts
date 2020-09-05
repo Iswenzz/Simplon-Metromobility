@@ -4,6 +4,7 @@ import { FeatureCollection, Feature, Point } from "geojson";
 import { RouteProperties, Route, RouteStopTimes, RouteTime } from "mobility";
 import { glMap, tagLines, tagFavorite } from "./transport";
 import { createLoaderAnim, formatRealtimeDate } from "./utility";
+import { TAG_API_STOPTIMES } from "./config/api";
 
 export interface MarkerClickArgs
 {
@@ -146,7 +147,7 @@ export class TagStops
 
 		// request stop times
 		$.ajax({
-			url: `https://data.mobilites-m.fr/api/routers/default/index/stops/${e.data.feature.properties.id}/stoptimes`,
+			url: TAG_API_STOPTIMES(e.data.feature.properties.id),
 			type: "GET",
 			dataType: "json",
 		}).done((stoptimes: RouteStopTimes[]) =>

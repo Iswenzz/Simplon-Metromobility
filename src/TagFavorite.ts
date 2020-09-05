@@ -3,6 +3,7 @@ import { createLoaderAnim, formatRealtimeDate } from "./utility";
 import { Route, RouteStopTimes, RouteTime, RouteProperties } from "mobility";
 import { tagLines } from "./transport";
 import { Feature, Point } from "geojson";
+import { TAG_API_STOPTIMES } from "./config/api";
 
 /**
  * User favorite TAG's stops.
@@ -106,7 +107,7 @@ export class TagFavorite
 			const textColor: string = "#" + route?.textColor ?? "black";
 
 			$.ajax({
-				url: `https://data.mobilites-m.fr/api/routers/default/index/stops/${feature.properties.id}/stoptimes`,
+				url: TAG_API_STOPTIMES(feature.properties.id),
 				type: "GET",
 				dataType: "json",
 			}).done((stoptimes: RouteStopTimes[]) =>

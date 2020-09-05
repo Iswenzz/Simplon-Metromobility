@@ -2,6 +2,7 @@ import * as $ from "jquery";
 import { FeatureCollection, LineString, Position } from "geojson";
 import { Route, RouteTypeAlias } from "mobility";
 import { glMap } from "./transport";
+import { TAG_API_LINES } from "./config/api";
 
 /**
  * Render TAG's route lines.
@@ -72,7 +73,7 @@ export class TagLines
 	private renderRoute(routeCode: string, color: string): JQuery.jqXHR<FeatureCollection<LineString>>
 	{
 		return $.ajax({
-			url: `https://data.metromobilite.fr/api/lines/json?types=ligne&codes=${routeCode}`,
+			url: TAG_API_LINES(routeCode),
 			type: "GET",
 			dataType: "json",
 		}).done((geojson: FeatureCollection<LineString>) =>
