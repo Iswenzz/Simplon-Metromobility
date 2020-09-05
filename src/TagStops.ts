@@ -4,7 +4,7 @@ import { FeatureCollection, Feature, Point } from "geojson";
 import { RouteProperties, Route, RouteStopTimes, RouteTime } from "mobility";
 import { glMap, tagLines, tagFavorite } from "./transport";
 import { createLoaderAnim, formatRealtimeDate } from "./utility";
-import { TAG_API_STOPTIMES } from "./config/api";
+import { TAG_API_STOPTIMES } from "./config/API";
 
 export interface MarkerClickArgs
 {

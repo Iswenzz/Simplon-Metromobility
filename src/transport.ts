@@ -9,7 +9,7 @@ import { TagLines } from "./TagLines";
 import { TagFavorite } from "./TagFavorite";
 import { AboutSlide } from "./AboutSlide";
 import "normalize.css";
-import { TAG_API_ROUTES, TAG_API_BBOX } from "./config/api";
+import { TAG_API_ROUTES, TAG_API_BBOX } from "./config/API";
 
 export let glMap: Map = null;
 export let tagStops: TagStops = null;

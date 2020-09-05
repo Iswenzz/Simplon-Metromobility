@@ -3,7 +3,7 @@ import { createLoaderAnim, formatRealtimeDate } from "./utility";
 import { Route, RouteStopTimes, RouteTime, RouteProperties } from "mobility";
 import { tagLines } from "./transport";
 import { Feature, Point } from "geojson";
-import { TAG_API_STOPTIMES } from "./config/api";
+import { TAG_API_STOPTIMES } from "./config/API";
 
 /**
  * User favorite TAG's stops.
