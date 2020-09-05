@@ -34,14 +34,7 @@ export class TagFavorite
 	 */
 	public load(): void
 	{
-		try
-		{
-			this.features = JSON.parse(localStorage.getItem("transport-favorite") ?? "");
-		}
-		catch (e)
-		{
-			console.log(e);
-		}
+		this.features = JSON.parse(localStorage.getItem("transport-favorite") ?? "{}");
 	}
 
 	/**
@@ -91,6 +84,9 @@ export class TagFavorite
 	 */
 	public render(): void
 	{
+		// clear previous data
+		this.container.html("");
+
 		// if features is empty
 		if (!this.features.length)
 		{
@@ -99,8 +95,6 @@ export class TagFavorite
 		}
 
 		const loaderElem: JQuery<HTMLDivElement> = createLoaderAnim();
-		// clear previous data
-		this.container.html("");
 		this.container.append(loaderElem);
 		loaderElem.fadeIn("normal");
 
