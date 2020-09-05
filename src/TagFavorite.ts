@@ -59,9 +59,15 @@ export class TagFavorite
 	 */
 	public toggle(feature: Feature<Point, RouteProperties>): void
 	{
+		const mapFavAnchors = $<HTMLAnchorElement>(
+			`.routeinfo-favorite-${feature.properties.id.replace(":", "")}[type*="map"]`);
+		const favoriteFavAnchors = $<HTMLAnchorElement>(
+			`.routeinfo-favorite-${feature.properties.id.replace(":", "")}[type*="favorite"]`);
+		// remove duplicates
+		mapFavAnchors.not(":first").remove();
+		favoriteFavAnchors.not(":first").remove();
+		
 		const sender = $<HTMLAnchorElement>(`.routeinfo-favorite-${feature.properties.id.replace(":", "")}`);
-		sender.not(":first").remove(); // remove duplicates
-
 		// remove feature if it exists already
 		const found: Feature<Point, RouteProperties> = this.features.find(
 			f => f.properties.id === feature.properties.id) ?? null;
@@ -85,15 +91,18 @@ export class TagFavorite
 	 */
 	public render(): void
 	{
+		// if features is empty
+		if (!this.features.length)
+		{
+			this.container.append($<HTMLParagraphElement>("<p>Vous n'avez pas encore de ligne favoris!</p>"));
+			return;
+		}
+
 		const loaderElem: JQuery<HTMLDivElement> = createLoaderAnim();
 		// clear previous data
 		this.container.html("");
 		this.container.append(loaderElem);
 		loaderElem.fadeIn("normal");
-
-		// if features is empty
-		if (!this.features.length)
-			this.container.append($<HTMLParagraphElement>("<p>Vous n'avez pas encore de ligne favories!</p>"));
 
 		for (const feature of this.features)
 		{
@@ -139,7 +148,7 @@ export class TagFavorite
 
 				// append favorite button
 				const favoriteButton = $<HTMLAnchorElement>(`
-					<a class="routeinfo-favorite routeinfo-favorite-${feature.properties.id.replace(":", "")}" 
+					<a type="favorite" class="routeinfo-favorite routeinfo-favorite-${feature.properties.id.replace(":", "")}" 
 					style="color: ${color}">
 						<span class="material-icons">
 							${this.isFavorite(feature.properties.id) ? "star" : "star_border"}

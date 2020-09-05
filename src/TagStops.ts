@@ -134,7 +134,7 @@ export class TagStops
 
 		// append favorite button
 		const favoriteButton = $<HTMLAnchorElement>(`
-			<a class="routeinfo-favorite routeinfo-favorite-${e.data.feature.properties.id.replace(":", "")}" 
+			<a type="map" class="routeinfo-favorite routeinfo-favorite-${e.data.feature.properties.id.replace(":", "")}" 
 			style="color: ${color}">
 				<span class="material-icons">
 					${tagFavorite.isFavorite(e.data.feature.properties.id) ? "star" : "star_border"}
