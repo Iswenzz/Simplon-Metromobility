@@ -108,8 +108,24 @@ $(document).ready(async () =>
  */
 export const updateLocalisation = (): void =>
 {
-	navigator.geolocation.getCurrentPosition(
-		(position: Position) => glMap.setCenter([position.coords.longitude, position.coords.latitude]));
+	if (navigator.geolocation)
+	{
+		const geoOptions: PositionOptions = {
+			enableHighAccuracy: true,
+			timeout: 5000,
+			maximumAge: 0
+		};
+		navigator.geolocation.getCurrentPosition((position: Position) => 
+		{
+			glMap.flyTo({
+				center: [position.coords.longitude, position.coords.latitude],
+				essential: true,
+				zoom: 16,
+				curve: 1,
+				speed: 1
+			});
+		}, (e: PositionError) => console.log(e), geoOptions);
+	}
 };
 
 /**

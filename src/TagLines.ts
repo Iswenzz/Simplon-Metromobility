@@ -1,5 +1,5 @@
 import * as $ from "jquery";
-import { FeatureCollection, LineString } from "geojson";
+import { FeatureCollection, LineString, Position } from "geojson";
 import { Route, RouteTypeAlias } from "mobility";
 import { glMap } from "./transport";
 
@@ -69,9 +69,9 @@ export class TagLines
 	 * @param routeCode - The route code (ex: SEM_C3).
 	 * @param color - The route color.
 	 */
-	private renderRoute(routeCode: string, color: string): void
+	private renderRoute(routeCode: string, color: string): JQuery.jqXHR<FeatureCollection<LineString>>
 	{
-		$.ajax({
+		return $.ajax({
 			url: `https://data.metromobilite.fr/api/lines/json?types=ligne&codes=${routeCode}`,
 			type: "GET",
 			dataType: "json",
@@ -98,6 +98,7 @@ export class TagLines
 					}
 				});
 			}
+			return geojson;
 		}).fail((error: JQuery.jqXHR) =>
 		{
 			console.log(error);
@@ -108,7 +109,7 @@ export class TagLines
 	 * Callback on route logo click.
 	 * @param e - Mouse click event arg.
 	 */
-	private onRouteLogoClick(e: JQuery.ClickEvent<HTMLLIElement>): void
+	private async onRouteLogoClick(e: JQuery.ClickEvent<HTMLLIElement>): Promise<void>
 	{
 		const target = $<HTMLLIElement>(e.target);
 		const id: string = target.attr("data-id");
@@ -116,6 +117,7 @@ export class TagLines
 		const color: string = target.attr("data-color");
 		const transport: string = id.split(":")[0];
 
+		const geoJson: FeatureCollection<LineString> = await this.renderRoute(`${transport}_${name}`, color);
 		if (this.selectedRoutes.includes(id))
 		{
 			target.removeClass("active");
@@ -125,7 +127,18 @@ export class TagLines
 		{
 			target.addClass("active");
 			this.selectedRoutes.push(id);
+
+			// move to line
+			const coords: Position = geoJson.features[0].geometry.coordinates[0];
+			const halfPoint = coords[Math.floor(coords.length / 2)] as unknown as [number, number];
+
+			glMap.flyTo({
+				center: halfPoint,
+				essential: true,
+				zoom: 13,
+				curve: 1,
+				speed: 1
+			});
 		}
-		this.renderRoute(`${transport}_${name}`, color);
 	}
 }
