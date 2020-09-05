@@ -2,6 +2,27 @@
 @import "./navbar";
 @import "../../../node_modules/mapbox-gl/dist/mapbox-gl.css";
 
+// map buttons
+@mixin mapbutton($top: null, $left: null, $bottom: null, $right: null) {
+	position: fixed;
+	@if ($top) { top: $top; }
+	@if ($left) { left: $left; }
+	@if ($bottom) { bottom: $bottom; }
+	@if ($right) { right: $right; }
+	background-color: transparentize($color: whitesmoke, $amount: 0.1);
+	color: black;
+	margin-top: 2px;
+	font-size: 1.5em;
+	width: 1.8em;
+	height: 1.8em;
+	z-index: 900;
+
+	&:active, &:hover, &:focus {
+		background-color: transparentize($color: whitesmoke, $amount: 0.1) !important;
+		color: black !important;
+	}
+}
+
 body {
 	height: 100vh;
 }
@@ -91,43 +112,36 @@ body {
 	}
 
 	#{&}-ways-toggler {
-		background-color: transparentize($color: whitesmoke, $amount: 0.2);
-		color: black;
-		position: fixed;
-		top: 25vh;
-		left: 0;
-		margin-top: 2px;
-		font-size: 1.5em;
-		width: 1.8em;
-		height: 1.8em;
-		z-index: 900;
+		@include mapbutton($top: 25vh, $left: 0);
+	}
+
+	#{&}-zoom {
+		@include mapbutton($top: 25vh, $left: 2em);
+		z-index: 400;
+		border-radius: 8px;
 
 		&:active, &:hover, &:focus {
-			background-color: transparentize($color: whitesmoke, $amount: 0.2) !important;
-			color: black !important;
+			border-radius: 8px !important;
+		}
+	}
+
+	#{&}-unzoom {
+		@include mapbutton($top: 25vh, $left: 4em);
+		z-index: 400;
+		border-radius: 8px;
+
+		&:active, &:hover, &:focus {
+			border-radius: 8px !important;
 		}
 	}
 
 	#{&}-localisation {
-		position: fixed;
-		margin: 2px;
-		bottom: 0;
-		right: 0;
-		font-size: 1.5em;
-		width: 1.8em;
-		height: 1.8em;
-		z-index: 1300;
-		color: black;
-		background-color: transparentize($color: whitesmoke, $amount: 0.2);
-
-		&:active, &:hover, &:focus {
-			background-color: transparentize($color: whitesmoke, $amount: 0.2) !important;
-			color: black !important;
-		}
+		@include mapbutton($bottom: 0, $right: 0);
+		z-index: 500;
 	}
 
 	#{&}-map {
-		background-color: transparentize($color: whitesmoke, $amount: 0.2);
+		background-color: transparentize($color: whitesmoke, $amount: 0.1);
 		position: fixed;
 		top: 25vh;
 		right: 0;
@@ -219,7 +233,7 @@ body {
 		right: -100%;
 		width: 25%;
 		height: 75vh;
-		z-index: 1300;
+		z-index: 800;
 
 		@include media(tablet_mobile, portrait) {
 			width: 70%;
@@ -233,7 +247,7 @@ body {
 		background: linear-gradient(-45deg, #ee76529c, #e73c7ead, #23a5d5a6, #23d5abb2);
 		background-size: 400% 400%;
 		animation: gradient 15s ease infinite;
-		z-index: 1300;
+		z-index: 800;
 
 		@include media(tablet_mobile, portrait) {
 			width: 70%;
@@ -241,21 +255,7 @@ body {
 	}
 
 	#{&}-drawer-toggler {
-		position: absolute;
-		margin: 2px;
-		top: 25vh;
-		right: 0;
-		font-size: 1.5em;
-		width: 1.8em;
-		height: 1.8em;
-		z-index: 1300;
-		color: black;
-		background-color: transparentize($color: whitesmoke, $amount: 0.2);
-
-		&:active, &:hover, &:focus {
-			background-color: transparentize($color: whitesmoke, $amount: 0.2) !important;
-			color: black !important;
-		}
+		@include mapbutton($top: 25vh, $right: 0);
 	}
 
 	#{&}-container {

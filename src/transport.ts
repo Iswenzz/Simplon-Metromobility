@@ -60,6 +60,8 @@ $(document).ready(async () =>
 	$<HTMLButtonElement>("#transport-ways-toggler").click(toggleWindow.bind(windows, windows["ways"]));
 	$<HTMLButtonElement>("#favorite-drawer-toggler").click(toggleWindow.bind(windows, windows["favorite"]));
 	$<HTMLButtonElement>("#transport-localisation").click(updateLocalisation);
+	$<HTMLButtonElement>("#transport-zoom").click(() => glMap.zoomIn());
+	$<HTMLButtonElement>("#transport-unzoom").click(() => glMap.zoomOut());
 
 	// initialize gl map canvas
 	glMap = new Map({

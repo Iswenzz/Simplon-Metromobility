@@ -1,6 +1,7 @@
 declare module "mobility"
 {
-	export type RouteType = "TRAM" | "C38" | "CHRONO" | "FLEXO" | "SCOL" | "NAVETTE" | "SNC" | "PROXIMO";
+	export type RouteType = "TRAM" | "C38" | "CHRONO" | "FLEXO" | "SCOL" 
+	| "NAVETTE" | "SNC" | "PROXIMO";
 
 	export interface RoutePattern
 	{
