@@ -91,7 +91,7 @@ export class TagFavorite
 		// if features is empty
 		if (!this.features.length)
 		{
-			this.container.append($<HTMLParagraphElement>("<p>Vous n'avez pas encore de ligne favoris!</p>"));
+			this.container.append($<HTMLParagraphElement>("<p class=\"text-center\">Vous n'avez pas encore de ligne favoris!</p>"));
 			return;
 		}
 
@@ -131,7 +131,7 @@ export class TagFavorite
 
 				// card element
 				const content = $<HTMLElement>(`
-					<article class="routeinfo m-2 shadow" style="border-radius: 16px; width: 100%;">
+					<article class="routeinfo m-2 shadow" style="border-radius: 16px;">
 						<header style="background-color: ${color}">
 							<h3 style="color: ${textColor}">${feature.properties.LIBELLE}</h3>
 						</header>

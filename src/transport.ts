@@ -36,14 +36,14 @@ export interface TransportWindow
 export const windows = {
 	ways: { 
 		name: "ways",
-		element: $<HTMLElement>("#transport-ways, #transport-ways header"),
+		element: $<HTMLElement>("#transport-ways"),
 		isOpened: true,
 		isAnimDone: true,
 		toggleCallback: function(): void { toggleRouteDrawer(this); }
 	},
 	favorite: { 
 		name: "favorite",
-		element: $<HTMLElement>("#favorite-drawer"),
+		element: $<HTMLElement>("#favorite"),
 		isOpened: false,
 		isAnimDone: true,
 		toggleCallback: function(): void { toggleFavoriteDrawer(this); }
@@ -59,7 +59,7 @@ $(document).ready(async () =>
 	
 	// map buttons events
 	$<HTMLButtonElement>("#transport-ways-toggler").click(toggleWindow.bind(windows, windows["ways"]));
-	$<HTMLButtonElement>("#favorite-drawer-toggler").click(toggleWindow.bind(windows, windows["favorite"]));
+	$<HTMLButtonElement>("#transport-favorite").click(toggleWindow.bind(windows, windows["favorite"]));
 	$<HTMLButtonElement>("#transport-localisation").click(updateLocalisation);
 	$<HTMLButtonElement>("#transport-zoom").click(() => glMap.zoomIn());
 	$<HTMLButtonElement>("#transport-unzoom").click(() => glMap.zoomOut());
@@ -186,7 +186,7 @@ export const toggleFavoriteDrawer = (window: TransportWindow): void =>
 	window.isAnimDone = false;
 	if (window.element.css("display") === "none")
 	{
-		$("#favorite-drawer-toggler").children().text("close");
+		$("#transport-favorite").text("close");
 		window.element.css("display", "block").animate({ right: "0" }, 500, () => 
 		{
 			tagFavorite.render();
@@ -199,7 +199,7 @@ export const toggleFavoriteDrawer = (window: TransportWindow): void =>
 		window.element.animate({ right: "-100%" }, 500, () =>
 		{
 			window.isAnimDone = true;
-			$("#favorite-drawer-toggler").children().text("star");
+			$("#transport-favorite").text("star");
 			window.element.css("display", "none");
 		});
 		window.isOpened = false;

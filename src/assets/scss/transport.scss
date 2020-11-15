@@ -124,6 +124,10 @@ body {
 		@include mapbutton($top: 25vh, $left: 0);
 	}
 
+	#{&}-favorite-toggler {
+		@include mapbutton($top: 25vh, $right: 0);
+	}
+
 	#{&}-zoom {
 		@include mapbutton($top: 25vh, $left: 2em);
 		z-index: 400;
@@ -235,18 +239,16 @@ body {
 }
 
 .favorite {
-	#{&}-drawer {
-		display: none;
-		position: absolute;
-		top: 25vh;
-		right: -100%;
-		width: 25%;
-		height: 75vh;
-		z-index: 800;
+	display: none;
+	position: absolute;
+	top: 25vh;
+	right: -100%;
+	width: 25%;
+	height: 75vh;
+	z-index: 800;
 
-		@include media(tablet_mobile, portrait) {
-			width: 70%;
-		}
+	@include media(tablet_mobile, portrait) {
+		width: 70%;
 	}
 
 	#{&}-drawer-header {
@@ -263,10 +265,6 @@ body {
 		}
 	}
 
-	#{&}-drawer-toggler {
-		@include mapbutton($top: 25vh, $right: 0);
-	}
-
 	#{&}-container {
 		overflow: auto;
 		list-style: none;
@@ -276,6 +274,10 @@ body {
 		margin-top: 3em;
 		height: calc(75vh - 3em);
 		justify-content: center;
+	}
+
+	#{&}-container-content {
+		padding-bottom: 6em;
 	}
 
 	.routeinfo-section {
