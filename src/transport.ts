@@ -3,7 +3,7 @@ import "./navbar";
 import "./assets/scss/transport.scss";
 import { Route, RouteProperties } from "mobility";
 import { Point, FeatureCollection } from "geojson";
-import { setRTLTextPlugin, Map } from "mapbox-gl";
+import {setRTLTextPlugin, Map, Marker, LngLatLike} from "mapbox-gl";
 import { TagStops } from "./TagStops";
 import { TagLines } from "./TagLines";
 import { TagFavorite } from "./TagFavorite";
@@ -21,6 +21,9 @@ export const covidAboutSlide = new AboutSlide("Votre santé : notre priorité",
 	
 	Des mesures de prévention sont déployées dans les transports en commun.
 `, "aboutslide");
+export let localisationTimeout: NodeJS.Timeout = null;
+export let localisationPreviousCoords = [];
+export let localisationMarker: Marker = null;
 
 // setInterval(covidAboutSlide.show.bind(covidAboutSlide), 1000 * 60 * 5); // TP but meh :D
 
@@ -60,7 +63,7 @@ $(document).ready(async () =>
 	// map buttons events
 	$<HTMLButtonElement>("#transport-ways-toggler").click(toggleWindow.bind(windows, windows["ways"]));
 	$<HTMLButtonElement>("#transport-favorite").click(toggleWindow.bind(windows, windows["favorite"]));
-	$<HTMLButtonElement>("#transport-localisation").click(updateLocalisation);
+	$<HTMLButtonElement>("#transport-localisation").click(toggleLocalisation);
 	$<HTMLButtonElement>("#transport-zoom").click(() => glMap.zoomIn());
 	$<HTMLButtonElement>("#transport-unzoom").click(() => glMap.zoomOut());
 
@@ -107,27 +110,55 @@ $(document).ready(async () =>
 });
 
 /**
- * Set the map center coordinates to the user's location.
+ * Update the map center coordinates to the user's location.
  */
-export const updateLocalisation = (): void =>
+export const toggleLocalisation = (): void =>
 {
-	if (navigator.geolocation)
+	const button = $<HTMLButtonElement>("#transport-localisation");
+	if (!button.hasClass("active"))
 	{
-		const geoOptions: PositionOptions = {
-			enableHighAccuracy: true,
-			timeout: 5000,
-			maximumAge: 0
-		};
-		navigator.geolocation.getCurrentPosition((position: Position) => 
+		button.addClass("active");
+		if (navigator.geolocation && !localisationTimeout)
 		{
-			glMap.flyTo({
-				center: [position.coords.longitude, position.coords.latitude],
-				essential: true,
-				zoom: 16,
-				curve: 1,
-				speed: 1
-			});
-		}, (e: PositionError) => console.log(e), geoOptions);
+			// update user's location every 100ms
+			localisationTimeout = setInterval(() =>
+			{
+				const geoOptions: PositionOptions = {
+					enableHighAccuracy: true,
+					timeout: 5000,
+					maximumAge: 0
+				};
+				navigator.geolocation.getCurrentPosition((position: Position) =>
+				{
+					// move map and marker if the previous coords changed
+					const currentCoords: LngLatLike = [position.coords.longitude, position.coords.latitude];
+					if (localisationPreviousCoords[0] !== currentCoords[0]
+						&& localisationPreviousCoords[1] !== currentCoords[1])
+					{
+						localisationPreviousCoords = currentCoords;
+						glMap.flyTo({
+							center: currentCoords,
+							essential: true,
+							zoom: 16,
+							curve: 1,
+							speed: 1
+						});
+						if (!localisationMarker)
+							localisationMarker = new Marker().setLngLat(currentCoords).addTo(glMap);
+						localisationMarker.setLngLat(currentCoords);
+					}
+				}, (e: PositionError) => console.log(e), geoOptions);
+			}, 100);
+		}
+	}
+	else
+	{
+		button.removeClass("active");
+		clearInterval(localisationTimeout);
+		localisationPreviousCoords = [];
+		localisationTimeout = null;
+		localisationMarker?.remove();
+		localisationMarker = null;
 	}
 };
 

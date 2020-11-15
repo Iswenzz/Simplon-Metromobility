@@ -153,6 +153,10 @@ body {
 		z-index: 500;
 	}
 
+	#{&}-localisation.active {
+		color: red !important;
+	}
+
 	#{&}-map {
 		background-color: transparentize($color: whitesmoke, $amount: 0.1);
 		position: fixed;
