@@ -98,7 +98,7 @@ module.exports = (_, argv) =>
 							options: {
 								sourceMap: true,
 								config: {
-									path: "postcss.config.js"
+									path: "postcss.api.js"
 								}
 							}
 						},

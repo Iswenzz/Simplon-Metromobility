@@ -2,7 +2,7 @@ import * as $ from "jquery";
 import { FeatureCollection, LineString, Position } from "geojson";
 import { Route, RouteTypeAlias } from "mobility";
 import { glMap } from "./transport";
-import { TAG_API_LINES } from "./config/API";
+import { TAG_API_LINES } from "./api/API";
 
 /**
  * Render TAG's route lines.
