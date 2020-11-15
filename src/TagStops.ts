@@ -60,8 +60,8 @@ export class TagStops
 		const newMarkers: Marker[] = [];
 		const features: MapboxGeoJSONFeature[] = glMap.querySourceFeatures("routestops");
 
-		// hide all markers if the map zoom is less than 14
-		if (glMap.getZoom() < 14)
+		// hide all markers if the map zoom is less than 16
+		if (glMap.getZoom() < 16)
 		{
 			if (Object.values(this.glMarkersOnScreen).length)
 			{
