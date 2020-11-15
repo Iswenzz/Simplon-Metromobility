@@ -23,8 +23,13 @@
 	}
 }
 
+html {
+	overflow: hidden;
+}
+
 body {
 	height: 100vh;
+	max-height: 100vh;
 }
 
 .navbar {
@@ -100,6 +105,10 @@ body {
 		overflow-y: auto;
 		height: calc(75vh - 3em);
 		padding: 0 1em;
+	}
+
+	#{&}-ways-container-content {
+		padding-bottom: 6em;
 	}
 
 	#{&}-ways-header {
