@@ -35,7 +35,7 @@ export class TagFavorite
 	 */
 	public load(): void
 	{
-		this.features = JSON.parse(localStorage.getItem("transport-favorite") ?? "{}");
+		this.features = JSON.parse(localStorage.getItem("transport-favorite") ?? "[]");
 	}
 
 	/**
@@ -44,7 +44,7 @@ export class TagFavorite
 	 */
 	public isFavorite(id: string): boolean
 	{
-		return this.features.some(f => f.properties.id === id);
+		return this.features.some(f => f.properties.id === id) ?? false;
 	}
 
 	/**
