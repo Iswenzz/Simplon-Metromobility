@@ -147,7 +147,12 @@ export const toggleLocalisation = (): void =>
 							localisationMarker = new Marker().setLngLat(currentCoords).addTo(glMap);
 						localisationMarker.setLngLat(currentCoords);
 					}
-				}, (e: PositionError) => console.log(e), geoOptions);
+				}, (e: PositionError) =>
+				{
+					console.log(e);
+					clearInterval(localisationTimeout);
+					localisationTimeout = null;
+				}, geoOptions);
 			}, 100);
 		}
 	}
