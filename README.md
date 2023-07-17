@@ -1,4 +1,3 @@
-![](https://i.imgur.com/XFvRaaO.png)
 # Simplon JS TP
 ![](https://i.imgur.com/kQ7uq7k.jpg)
 
